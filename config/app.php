@@ -37,8 +37,8 @@ return [
     | application. If disabled, a simple generic error page is shown.
     |
     */
-
-    'debug' => env('APP_DEBUG', false),
+    //todo:开启调试模式
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
