@@ -32,63 +32,16 @@
     </div>        <div style="height: 20px;">
     </div>
     <div>
+        @foreach($post as $key => $val)
         <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/posts/62" >你好你好</a></h2>
-            <p class="blog-post-meta">May 14, 2017 by <a href="/user/5">Kassandra Ankunding2</a></p>
+            <h2 class="blog-post-title"><a href="/Laravel/posts/{{$val->id}}" >{{$val->title}}</a></h2>
+            <p class="blog-post-meta">{{$val->created_at->toFormattedDateString()}} <a href="/user/5">Kassandra Ankunding2</a></p>
 
-            <p>你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好...
+            <p>{!! str_limit($val->content, 1000, '......') !!}
             <p class="blog-post-meta">赞 0  | 评论 0</p>
         </div>
-        <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/posts/61" >你好你好</a></h2>
-            <p class="blog-post-meta">May 14, 2017 by <a href="/user/5">Kassandra Ankunding2</a></p>
-
-            <p>你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好...
-            <p class="blog-post-meta">赞 0  | 评论 0</p>
-        </div>
-        <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/posts/60" >你好你好</a></h2>
-            <p class="blog-post-meta">May 14, 2017 by <a href="/user/5">Kassandra Ankunding2</a></p>
-
-            <p>你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好...
-            <p class="blog-post-meta">赞 0  | 评论 0</p>
-        </div>
-        <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/posts/59" >你好你好</a></h2>
-            <p class="blog-post-meta">May 14, 2017 by <a href="/user/5">Kassandra Ankunding2</a></p>
-
-            <p>你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好...
-            <p class="blog-post-meta">赞 0  | 评论 0</p>
-        </div>
-        <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/posts/58" >自动放大舒服的撒</a></h2>
-            <p class="blog-post-meta">May 11, 2017 by <a href="/user/5">Kassandra Ankunding2</a></p>
-
-            我们坚持一个中国我们坚持一个中国我们坚持一个中国我们坚持一个中国我们坚持一个中国我们坚持一个中国我们...
-            <p class="blog-post-meta">赞 0  | 评论 0</p>
-        </div>
-        <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/posts/57" >反对撒发的撒风反对撒发的撒风反对撒发的撒风</a></h2>
-            <p class="blog-post-meta">May 7, 2017 by <a href="/user/5">Kassandra Ankunding2</a></p>
-
-            反对撒发的撒风反对撒发的撒风反对撒发的撒风反对撒发的撒风反对撒发的撒风反对撒发的撒风反对撒发的撒风反...
-            <p class="blog-post-meta">赞 0  | 评论 0</p>
-        </div>
-
-        <ul class="pagination">
-            <li class="disabled"><span>&laquo;</span></li>
-            <li class="active"><span>1</span></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=2">2</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=3">3</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=4">4</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=5">5</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=6">6</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=7">7</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=8">8</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=9">9</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=10">10</a></li>
-            <li><a href="http://127.0.0.1:8000/posts?page=2" rel="next">&raquo;</a></li>
-        </ul>
+        @endforeach
+        {{$post->links()}}
 
     </div><!-- /.blog-main -->
 </div>
