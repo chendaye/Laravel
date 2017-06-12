@@ -121,6 +121,6 @@ class PostController extends Controller
         $path = $request->file('wangEditorH5File')->storePublicly(md5(time()));
         //生成一个指向此文件的路径
 //        return asset('storage/app/public/'.$path);  //使用原本路径
-        return asset('storage/'.$path);     //使用软连接  注意修改软连接 所属组 所有者
+        return asset('/public/storage/'.$path);     //使用软连接  注意修改软连接 所属组 所有者
     }
 }
