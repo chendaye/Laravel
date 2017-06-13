@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -12,6 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        $user = \Auth::user();
         //从容器中获取实例
         $app = app();
         $log = $app->make('log');  //通过字符串 log 在容器中获取 log 类的实例
@@ -57,6 +59,11 @@ class PostController extends Controller
         ], [
             'title.min' => '文章标题过短！',   //自定义提示信息
         ]);
+
+        //权限验证
+        $user_id = Auth::id();
+        $param = array_merge(\request(['title', 'content']), compact('user_id'));
+
         //逻辑
         //法一
       /*  $post = new Post();
@@ -64,7 +71,7 @@ class PostController extends Controller
         $post->content = \request('content');
         $post->save();*/
         //法二
-        $post = Post::create(\request(['title', 'content']));
+        $post = Post::create($param);
 
         //渲染
         return redirect('/posts');  //跳转
@@ -79,6 +86,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        //权限验证
+        $this->authorize('edit', $post);
         return view('post/edit',compact('post'));
     }
 
@@ -96,6 +105,9 @@ class PostController extends Controller
         ], [
             'title.min' => '文章标题过短！',   //自定义提示信息
         ]);
+
+        //权限验证
+        $this->authorize('update', $post); //  可传递一个类名给 authorize 方法。当授权动作时，这个类名将被用来判断使用哪个策略：
         //逻辑
         $post->title = \request('title');
         $post->content = \request('content');
@@ -109,6 +121,8 @@ class PostController extends Controller
      */
     public function delete(Post $post)
     {
+        //权限判断
+        $this->authorize('delete', $post);  //使用  Post模型的策略类 PostPolicy  里定义的delete 策略方法来判断
         //todo:用户权限验证
         $post->delete();
         return redirect("/posts");
