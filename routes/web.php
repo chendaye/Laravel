@@ -60,4 +60,12 @@ Route::get('logout', '\App\Http\Controllers\LoginController@logout');
 Route::get('user/me/set', '\App\Http\Controllers\UserController@set');
 Route::post('user/me/set', '\App\Http\Controllers\UserController@store');
 
+//个人中心
+Route::get('user/{user}', '\App\Http\Controllers\UserController@show');
+//关注某人
+Route::post('user/{user}/fan', '\App\Http\Controllers\UserController@fun');
+//取消关注某人
+Route::post('user/{user}/unFan', '\App\Http\Controllers\UserController@unFun');
+
+
 
