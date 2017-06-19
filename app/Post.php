@@ -76,29 +76,35 @@ class Post extends Model
      * 属于某个作者的文章
      * @param Builder $query
      * @param $user_id
+     * @return mixed
      */
     public function scopeAuthor(Builder $query , $user_id)
     {
-        $query->where('user_id', $user_id);
+        return $query->where('user_id', $user_id);
     }
+
 
     /**
      * 一个文章有多个主题
      */
-    public function postTopic()
+    public function postTopics()
     {
-        $this->hasMany(Topic::class, 'post_id', 'id');
+        return $this->hasMany(PostTopic::class, 'post_id', 'id');
     }
+
 
     /**
      * 文章不属于某一个主题
      * @param Builder $query
      * @param $topic_id
+     * @return mixed
      */
     public function scopeTopicNot(Builder $query, $topic_id)
     {
-        $query->doesntHave('postTopic', 'and', function ($que) use($topic_id){
-            $que->where('topic_id', $topic_id);
+        //第一个参数是关系模型  第二个参数是  and or  描述关系的   第三个匿名函数是要and  和  or 的关系
+        //通过第一个参数(模型关系)获取专题数  再and 一个条件
+        return $query->doesntHave('postTopics', 'and', function($q) use ($topic_id) {
+             $q->where("topic_id", $topic_id);
         });
     }
 }

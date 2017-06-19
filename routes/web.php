@@ -72,3 +72,6 @@ Route::post('user/{user}/unFan', '\App\Http\Controllers\UserController@unFan');
 Route::get('topic/{topic}', '\App\Http\Controllers\TopicController@show');
 //投稿
 Route::post('topic/{topic}/submit', '\App\Http\Controllers\TopicController@submit');
+
+//后台路由
+include_once 'admin.php';

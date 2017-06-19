@@ -40,7 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        //定义 guards
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -68,6 +72,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        //要用Auth完成用户认证 首先定义 providers
+        'admins' => [
+            'driver' => 'eloquent',     //也使用模型认证
+            'model' => App\AdminUser::class,  //指定模型
         ],
 
         // 'users' => [
