@@ -10,15 +10,7 @@
         <div class="form-group">
             <label>内容</label>
             <textarea id="content"  style="height:400px;max-height:500px;" name="content" class="form-control" placeholder="这里是内容"></textarea>
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('layout.error')
         </div>
         <button type="submit" class="btn btn-default">提交</button>
     </form>
