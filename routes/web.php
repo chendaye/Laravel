@@ -16,7 +16,6 @@ Route::get('/', function () {
 });
 
 //文章路由
-
 //文章列表
 Route::get('posts', '\App\Http\Controllers\PostController@index');
 //创建文章
@@ -31,3 +30,24 @@ Route::get('posts/{post}/delete', '\App\Http\Controllers\PostController@delete')
 Route::get('posts/{post}', '\App\Http\Controllers\PostController@show');
 //图片上传
 Route::post('posts/img/upload', '\App\Http\Controllers\PostController@imgUpload');
+
+//用户模块
+//注册页面
+Route::get('register', '\App\Http\Controllers\RegisterController@index');
+//注册行为
+Route::post('register', '\App\Http\Controllers\RegisterController@register');
+
+//登录页面
+//登录页面
+Route::get('login', '\App\Http\Controllers\LoginController@index');
+//登录行为
+Route::post('login', '\App\Http\Controllers\LoginController@login');
+//登出行为
+Route::get('logout', '\App\Http\Controllers\LoginController@logout');
+
+//个人设置页面
+//设置页面
+Route::get('user/me/set', '\App\Http\Controllers\UserController@set');
+Route::post('user/me/set', '\App\Http\Controllers\UserController@store');
+
+

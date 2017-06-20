@@ -12,6 +12,10 @@ class PostController extends Controller
      */
     public function index()
     {
+        //从容器中获取实例
+        $app = app();
+        $log = $app->make('log');  //通过字符串 log 在容器中获取 log 类的实例
+        $log->info('post_index', ['data' => 'post']);   //调用类方法
         //获取数据包括分页
         $post = Post::orderBy('created_at', 'desc')->paginate(10);;
         //加载模板
