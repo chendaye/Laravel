@@ -32,8 +32,8 @@ class AdminUser extends AuthentiUsers
      */
     public function hasRole(AdminRole $role)
     {
-        //intersect() 查找collect 交集  “！！” 把结果转换未bool
-        return !!$role->intersect($this->roles())->count();
+        //intersect() 查找collect 交集  “！！” 把结果转换未bool  移除任何指定 数组 或集合内所没有的数值。最终集合保存着原集合的键：
+        return !!$role->intersect($this->roles)->count();
     }
 
     /**
@@ -65,6 +65,7 @@ class AdminUser extends AuthentiUsers
      */
     public function hasPower(AdminPower $power)
     {
-        return $this->hasRole($power->roles());
+        return $this->hasRole($power->roles);
     }
+
 }

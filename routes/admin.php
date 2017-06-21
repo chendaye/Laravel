@@ -15,17 +15,49 @@ Route::group(['prefix' => 'admin'], function (){
     Route::group(['middleware' => 'auth:admin'], function (){
         //首页
         Route::get('/home', '\App\Admin\Controllers\HomeController@index');
-        //管理员列表
-        Route::get('/users', '\App\Admin\Controllers\UserController@index');
-        //创建管理员
-        Route::get('/users/create', '\App\Admin\Controllers\UserController@create');
-        //保存管理员
-        Route::post('/users/store', '\App\Admin\Controllers\UserController@store');
 
-        //后台文章列表页
-        Route::get('/posts', '\App\Admin\Controllers\PostController@index');
-        //后台文章审核
-        Route::post('/posts/{post}/status', '\App\Admin\Controllers\PostController@status');
+        //todo:Gate 权限控制
+        Route::group(['middleware' => 'can:system'], function (){
+            //用户
+            //管理员列表
+            Route::get('/users', '\App\Admin\Controllers\UserController@index');
+            //创建管理员
+            Route::get('/users/create', '\App\Admin\Controllers\UserController@create');
+            //保存管理员
+            Route::post('/users/store', '\App\Admin\Controllers\UserController@store');
+            //赋予角色
+            Route::get('/users/{user}/role', '\App\Admin\Controllers\UserController@role');
+            //保存角色
+            Route::post('/users/{user}/role', '\App\Admin\Controllers\UserController@roleStore');
+
+            //角色
+            //角色列表
+            Route::get('/roles', '\App\Admin\Controllers\RoleController@index');
+            //创建角色
+            Route::get('/roles/create', '\App\Admin\Controllers\RoleController@create');
+            //保存角色
+            Route::post('/roles/store', '\App\Admin\Controllers\RoleController@store');
+            //授权
+            Route::get('/roles/{role}/power', '\App\Admin\Controllers\RoleController@power');
+            //保存授权
+            Route::post('/roles/{role}/power', '\App\Admin\Controllers\RoleController@powerStore');
+
+            //权限
+            //权限列表
+            Route::get('/powers', '\App\Admin\Controllers\PowerController@index');
+            //创建管权限
+            Route::get('/powers/create', '\App\Admin\Controllers\PowerController@create');
+            //保存管权限
+            Route::post('/powers/store', '\App\Admin\Controllers\PowerController@store');
+        });
+
+        //todo: Policy 策略权限控制
+        Route::group(['middleware' => 'can:post'], function (){
+            //后台文章列表页
+            Route::get('/posts', '\App\Admin\Controllers\PostController@index');
+            //后台文章审核
+            Route::post('/posts/{post}/status', '\App\Admin\Controllers\PostController@status');
+        });
     });
 });
 ?>
