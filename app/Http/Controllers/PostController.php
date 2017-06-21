@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Post;
+use App\Zan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +21,7 @@ class PostController extends Controller
         $log = $app->make('log');  //通过字符串 log 在容器中获取 log 类的实例
         $log->info('post_index', ['data' => 'post']);   //调用类方法
         //获取数据包括分页
-        $post = Post::orderBy('created_at', 'desc')->paginate(10);;
+        $post = Post::orderBy('created_at', 'desc')->withCount('comment')->paginate(10);;
         //加载模板
         return view('post/index', compact('post'));
     }
@@ -32,6 +34,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        //todo:预加载评论类
+        $post->load('comment');
         //直接把对象传递给页面
         return view('post/show',compact('post'));
     }
@@ -140,5 +144,50 @@ class PostController extends Controller
         //生成一个指向此文件的路径
 //        return asset('storage/app/public/'.$path);  //使用原本路径
         return asset('/public/storage/'.$path);     //使用软连接  注意修改软连接 所属组 所有者
+    }
+
+    /**
+     * 评论模块
+     * @param Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function comment(Post $post)
+    {
+        //验证
+        $this->validate(\request(), [
+            'post_id' => 'integer',
+            'content' => 'required|string|min:3',   //规则不要拼写错
+        ]);
+        //逻辑
+        $comment = new Comment();   //Comment 模型
+        $comment->user_id = Auth::id();
+        $comment->content = \request('content');
+        $post->comment()->save($comment);   //将comment 模型实例作为参数传入
+        //渲染
+        return back();  //直接回到详情页面
+    }
+
+    /**
+     * 点赞
+     * @param Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function zan(Post $post)
+    {
+        $param = [
+            'user_id' => Auth::id(),    //当前登录的用户
+            'post_id' => $post->id,
+        ];
+        //在数据库中查找 有就取出来 没有就创建
+        Zan::firstOrCreate($param);
+
+        return back();
+    }
+
+    public function cancelZan(Post $post)
+    {
+        //取出当前用户的赞
+        $post->zan(Auth::id())->delete();
+        return back();
     }
 }

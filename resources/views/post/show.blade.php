@@ -19,9 +19,15 @@
         <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}}<a href="#">{{ $post->user->name }}</a></p>
 
         <p><p>{!! $post->content !!}<img src="http://127.0.0.1:8000/storage/72c76b674ec8793fcfd6555ff371bfbd/nxC9ozLfkORmoY92q9lPsejXchVvdNO2cwHiR2Jf.jpeg" alt="63" style="max-width: 100%;">你好你好似懂非懂说</p><p><br></p></p>
-        <div>
-            <a href="/posts/{{$post->id}}/zan" type="button" class="btn btn-primary btn-lg">赞</a>
-        </div>
+        @if($post->zan(\Illuminate\Support\Facades\Auth::id())->exist())
+            <div>
+                <a href="/Laravel/posts/{{$post->id}}/cancelZzan" type="button" class="btn btn-primary btn-lg">取消赞</a>
+            </div>
+            @else
+            <div>
+                <a href="/Laravel/posts/{{$post->id}}/zan" type="button" class="btn btn-primary btn-lg">赞</a>
+            </div>
+        @endif
     </div>
 
     <div class="panel panel-default">
@@ -30,12 +36,14 @@
 
         <!-- List group -->
         <ul class="list-group">
+            @foreach($post->comment as $val)
             <li class="list-group-item">
-                <h5>2017-05-28 10:15:08 by Kassandra Ankunding2</h5>
+                <h5>{{ $val->created_at }} by {{ $val->user->name }}</h5>
                 <div>
-                    这是第一个评论这是第一个评论这是第一个评论这是第一个评论这是第一个评论这是第一个评论这是第一个评论这是第一个评论这是第一个评论
+                   {{ $val->content }}
                 </div>
             </li>
+            @endforeach
         </ul>
     </div>
 
@@ -45,12 +53,13 @@
 
         <!-- List group -->
         <ul class="list-group">
-            <form action="/posts/comment" method="post">
-                <input type="hidden" name="_token" value="4BfTBDF90Mjp8hdoie6QGDPJF2J5AgmpsC9ddFHD">
-                <input type="hidden" name="post_id" value="62"/>
+            <form action="/Laravel/posts/{{ $post->id }}/comment" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="post_id" value="{{ $post->id }}"/>
                 <li class="list-group-item">
                     <textarea name="content" class="form-control" rows="10"></textarea>
                     <button class="btn btn-default" type="submit">提交</button>
+                    @include('layout.error')
                 </li>
             </form>
 

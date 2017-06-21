@@ -30,6 +30,13 @@ Route::get('posts/{post}/delete', '\App\Http\Controllers\PostController@delete')
 Route::get('posts/{post}', '\App\Http\Controllers\PostController@show');
 //图片上传
 Route::post('posts/img/upload', '\App\Http\Controllers\PostController@imgUpload');
+//文章评论
+Route::post('posts/{post}/comment', '\App\Http\Controllers\PostController@comment');
+
+//赞
+Route::get('posts/{post}/zan', '\App\Http\Controllers\PostController@zan');
+//取消赞
+Route::get('posts/{post}/cancelZan', '\App\Http\Controllers\PostController@cancelZan');
 
 //用户模块
 //注册页面

@@ -38,7 +38,7 @@
             <p class="blog-post-meta">{{$val->created_at->toFormattedDateString()}} <a href="/user/{{ $val->user_id }}">{{ $val->user->name }}</a></p>
 
             <p>{!! str_limit($val->content, 1000, '......') !!}
-            <p class="blog-post-meta">赞 0  | 评论 0</p>
+            <p class="blog-post-meta">赞 0  | 评论 {{ $val->comment_count }}</p>
         </div>
         @endforeach
         {{$post->links()}}
