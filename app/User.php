@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as AuthentiUsers;
+use PhpParser\Node\Expr\Cast\Object_;
 
 /**
  * 继承自带的门脸类
@@ -92,5 +93,36 @@ class User extends AuthentiUsers
         $fan->star_id = $uid;
         //先获取所有关注的人
         return $this->stars()->delete($fan);
+    }
+
+    /**
+     * 用户收到的通知
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function receivedNotices()
+    {
+        return $this->belongsToMany(AdminNotice::class, 'user_notice', 'user_id', 'notice_id')->withPivot('user_id', 'notice_id');
+    }
+
+    /**
+     * 用户是否收到某通知
+     * Eloquent -> collect  集合和模型要分清楚
+     * @param $notice
+     * @return bool
+     */
+    public function hasReceived($notice)
+    {
+        return !!$this->belongsToMany(AdminNotice::class, 'user_notice', 'user_id', 'notice_id')
+            ->wherePivotIn('notice_id', [$notice->id])->get();
+    }
+
+    /**
+     * 给用户增加通知
+     * @param $notice
+     */
+    public function addNotice($notice)
+    {
+        //模型关联返回的还是模型   不是 集合   模型关联产生的动态属性才是集合
+        $this->receivedNotices()->save($notice);
     }
 }
