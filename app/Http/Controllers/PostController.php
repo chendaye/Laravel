@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
     /**
+     * 列表获取是实际上是记录对象 对象又可以进行很多操作
+     * 事实上 PDO 的结果集本身就是对象
      * 文章列表
      */
     public function index()
@@ -21,7 +23,7 @@ class PostController extends Controller
         $log = $app->make('log');  //通过字符串 log 在容器中获取 log 类的实例
         $log->info('post_index', ['data' => 'post']);   //调用类方法
         //获取数据包括分页
-        $post = Post::orderBy('created_at', 'desc')->withCount('comment')->paginate(10);;
+        $post = Post::orderBy('created_at', 'desc')->withCount(['comment', 'allZan'])->paginate(10);
         //加载模板
         return view('post/index', compact('post'));
     }
@@ -184,9 +186,16 @@ class PostController extends Controller
         return back();
     }
 
+    /**
+     * Laravel模型中对记录的操作是一对象的形式来操作的
+     * 一个记录一个对象  一个记录关联多条记录也就是多个对象
+     * 都可以通过在模型找到其关联模型
+     * @param Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cancelZan(Post $post)
     {
-        //取出当前用户的赞
+        //取出当前用户的赞  实际上是 取出当前post关联的一个  zan模型（记录）实例 进行操作
         $post->zan(Auth::id())->delete();
         return back();
     }

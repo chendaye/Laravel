@@ -42,6 +42,7 @@ class Post extends Model
      */
     public function allZan()
     {
-        return $this->hasMany(\App\Zan::class, 'post_id', 'id');
+        return $this->hasMany(\App\Zan::class, 'post_id', 'id')
+            ->orderBy('created_at', 'desc');
     }
 }
