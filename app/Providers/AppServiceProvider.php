@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Topic;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
         \View::composer('layout.sidebar', function ($view){
             $topics =  Topic::all();
             $view->with('topics', $topics);
+        });
+        //给头部注入 当前用户
+        \View::composer('layout.nav', function ($view){
+            $user =  Auth::user();
+            $view->with('user', $user);
         });
     }
 

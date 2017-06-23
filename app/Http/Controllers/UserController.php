@@ -27,7 +27,7 @@ class UserController extends Controller
 
         $name = request('name');
         if ($name != $user->name) {
-            if(\App\User::where('name', $name)->count() > 0) {
+            if(User::where('name', $name)->count() > 0) {
                 return back()->withErrors(array('message' => '用户名称已经被注册'));
             }
             $user->name = request('name');
@@ -61,11 +61,6 @@ class UserController extends Controller
         $faners = User::whereIn('id', $fans->pluck('fun_id'))->withCount(['stars', 'fans', 'posts'])->get();
         return view('user.show', compact('user', 'posts', 'stars', 'starers', 'fans', 'faners'));
     }
-
-
-
-
-
 
     /**
      * 关注用户

@@ -26,9 +26,9 @@
             <li class="dropdown">
                 <div>
                     <img src="{{ $user->avatar }}" alt="" class="img-rounded" style="border-radius:500px; height: 30px">
-                    <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ \Illuminate\Support\Facades\Auth::user()->name }} <span class="caret"></span></a>
+                    <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ $user->name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/Laravel/user/{{ \Illuminate\Support\Facades\Auth::id() }}">我的主页</a></li>
+                        <li><a href="/Laravel/user/{{ $user->id }}">我的主页</a></li>
                         <li><a href="/Laravel/user/me/set">个人设置</a></li>
                         <li><a href="/Laravel/logout">登出</a></li>
                     </ul>
