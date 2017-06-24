@@ -1,9 +1,34 @@
 <?php
 
 namespace App;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
+    //引入 Searchabel
+    use Searchable;
+
+    /**
+     * 定义索引里面的类型
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'post';
+    }
+
+    /**
+     * 定义要搜索的字段
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'content' => $this->content,
+        ];
+    }
+
     /**
      * 文章关联创作者  一对一
      * 文章从属于创作者  所以 用 belongsTo()

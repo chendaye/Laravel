@@ -8,6 +8,7 @@ use App\Zan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class PostController extends Controller
 {
     /**
@@ -198,5 +199,22 @@ class PostController extends Controller
         //取出当前用户的赞  实际上是 取出当前post关联的一个  zan模型（记录）实例 进行操作
         $post->zan(Auth::id())->delete();
         return back();
+    }
+
+    /**
+     * 文章搜索
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search()
+    {
+        //验证
+        $this->validate(\request(),[
+            'query' => 'required',
+        ]);
+        //逻辑
+        $search = \request('query');
+        $content = Post::search($search)->paginate(10);
+        //渲染
+        return view('post.search', compact('content', 'search'));
     }
 }
