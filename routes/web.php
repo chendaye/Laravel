@@ -63,9 +63,12 @@ Route::post('user/me/set', '\App\Http\Controllers\UserController@store');
 //个人中心
 Route::get('user/{user}', '\App\Http\Controllers\UserController@show');
 //关注某人
-Route::post('user/{user}/fan', '\App\Http\Controllers\UserController@fun');
+Route::post('user/{user}/fan', '\App\Http\Controllers\UserController@fan');
 //取消关注某人
-Route::post('user/{user}/unFan', '\App\Http\Controllers\UserController@unFun');
+Route::post('user/{user}/unFan', '\App\Http\Controllers\UserController@unFan');
 
 
-
+//专题页详情
+Route::get('topic/{topic}', '\App\Http\Controllers\TopicController@show');
+//投稿
+Route::post('topic/{topic}/submit', '\App\Http\Controllers\TopicController@submit');

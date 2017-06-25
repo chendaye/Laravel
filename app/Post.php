@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\Searchable;
 
 class Post extends Model
@@ -69,5 +70,35 @@ class Post extends Model
     {
         return $this->hasMany(\App\Zan::class, 'post_id', 'id')
             ->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * 属于某个作者的文章
+     * @param Builder $query
+     * @param $user_id
+     */
+    public function scopeAuthor(Builder $query , $user_id)
+    {
+        $query->where('user_id', $user_id);
+    }
+
+    /**
+     * 一个文章有多个主题
+     */
+    public function postTopic()
+    {
+        $this->hasMany(Topic::class, 'post_id', 'id');
+    }
+
+    /**
+     * 文章不属于某一个主题
+     * @param Builder $query
+     * @param $topic_id
+     */
+    public function scopeTopicNot(Builder $query, $topic_id)
+    {
+        $query->doesntHave('postTopic', 'and', function ($que) use($topic_id){
+            $que->where('topic_id', $topic_id);
+        });
     }
 }

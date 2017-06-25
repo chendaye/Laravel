@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,6 +18,11 @@ class UserController extends Controller
 
     }
 
+    /**
+     * 用户个人中心
+     * @param User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(User $user)
     {
         //当前用户的信息 包含关注、粉丝、文章数
@@ -31,5 +37,37 @@ class UserController extends Controller
         $fans = $user->fans;  //当前用户的粉丝
         $faners = User::whereIn('id', $fans->pluck('fun_id'))->withCount(['stars', 'fans', 'posts'])->get();
         return view('user.show', compact('user', 'posts', 'stars', 'starers', 'fans', 'faners'));
+    }
+
+    /**
+     * 关注用户
+     * @param User $user
+     * @return array
+     */
+    public function fan(User $user)
+    {
+        //当前登录用户
+        $me = Auth::user();
+        $me->doFan($user->id);
+        return [
+            'error' => 0,
+            'msg'   => '关注成功',
+        ];
+    }
+
+    /**
+     * 取消关注
+     * @param User $user
+     * @return array
+     */
+    public function unFan(User $user)
+    {
+        //当前登录用户
+        $me = Auth::user();
+        $me->unFan($user->id);
+        return [
+            'error' => 0,
+            'msg'   => '取消关注成功',
+        ];
     }
 }

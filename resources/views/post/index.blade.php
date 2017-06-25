@@ -35,7 +35,7 @@
         @foreach($post as $key => $val)
         <div class="blog-post">
             <h2 class="blog-post-title"><a href="/Laravel/posts/{{$val->id}}" >{{$val->title}}</a></h2>
-            <p class="blog-post-meta">{{$val->created_at->toFormattedDateString()}} <a href="/user/{{ $val->user_id }}">{{ $val->user->name }}</a></p>
+            <p class="blog-post-meta">{{$val->created_at->toFormattedDateString()}} <a href="/Laravel/user/{{ $val->user_id }}">{{ $val->user->name }}</a></p>
 
             <p>{!! str_limit($val->content, 1000, '......') !!}
             <p class="blog-post-meta">赞 {{ $val->all_zan_count }}  | 评论 {{ $val->comment_count }}</p>

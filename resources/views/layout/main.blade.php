@@ -53,6 +53,7 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/Laravel/public/js/wangEditor.min.js"></script>
 <script src="/Laravel/public/js/ylaravel.js"></script>
+<script src="/Laravel/public/js/focus.js"></script>
 
 </body>
 </html>

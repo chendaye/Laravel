@@ -47,7 +47,7 @@ class User extends AuthentiUsers
     }
 
     /**
-     * 当前用户 是否 被 每一个  $uid 关注了
+     * 当前用户 是否 被 某一个  $uid 关注了
      * @param $uid
      * @return mixed
      */
@@ -85,7 +85,7 @@ class User extends AuthentiUsers
      * @param $uid
      * @return mixed
      */
-    public function unFun($uid)
+    public function unFan($uid)
     {
         //实例一个Fun对象
         $fan = new Fan();

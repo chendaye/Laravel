@@ -21,7 +21,8 @@
                 <div class="tab-pane active" id="tab_1">
                     <div class="blog-post" style="margin-top: 30px">
                         <p class=""><a href="/user/{{ $post->user->id }}">{{ $post->user->name }}</a> {{ $post->created_at->diffForHumans() }}</p>
-                        <p class=""><a href="/posts/62" >{{ $post->title }}</a></p>
+                        @include('layout.focus', ['focus' => $user])
+                        <p class=""><a href="/Laravel/posts/{{ $post->user->id }}" >{{ $post->title }}</a></p>
                         <p><p>{!! $post->content !!}</p>
                     </div>
                 </div>
@@ -33,9 +34,7 @@
                         <p class="">{{ $star->name }}</p>
                         {{--一个模型 就定义了一个表的所有关系  从表里任意取出一个记录（对象）都会具有这些属性--}}
                         <p class="">关注：{{ $star->stars_count }} | 粉丝：{{ $star->fans_count }}｜ 文章：{{ $star->posts_count }}</p>
-                        <div>
-                            <button class="btn btn-default like-button" like-value="1" like-user="6" _token="MESUY3topeHgvFqsy9EcM916UWQq6khiGHM91wHy" type="button">取消关注</button>
-                        </div>
+                        @include('layout.focus', ['focus' => $user])
                     </div>
                         @endforeach
 
@@ -47,9 +46,7 @@
                             <p class="">{{ $fan->name }}</p>
                             {{--一个模型 就定义了一个表的所有关系  从表里任意取出一个记录（对象）都会具有这些属性--}}
                             <p class="">关注：{{ $fan->stars_count }} | 粉丝：{{ $fan->fans_count }}｜ 文章：{{ $fan->posts_count }}</p>
-                            <div>
-                                <button class="btn btn-default like-button" like-value="1" like-user="6" _token="MESUY3topeHgvFqsy9EcM916UWQq6khiGHM91wHy" type="button">取消关注</button>
-                            </div>
+                            @include('layout.focus', ['focus' => $user])
                         </div>
                     @endforeach
                 </div>
