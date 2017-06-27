@@ -1,0 +1,181 @@
+<?php
+//todo:第一个路由
+Route::get('first', function (){
+    return 'first route';
+});
+
+//todo:路由方法
+Route::get('get', function () {
+    return 'get';
+});
+Route::post('post', function () {
+    //todo:
+});
+Route::put('put', function () {
+    //todo:
+});
+Route::patch('patch', function () {
+    //todo:
+});
+Route::delete('delete', function () {
+    //todo:
+});
+Route::options('options', function () {
+    //todo:
+});
+
+
+//todo:响应多个路由方法
+Route::match(['get', 'post'], 'match', function () {
+    return 'match';
+});
+
+Route::any('any', function () {
+    return 'any';
+});
+
+//todo:路由参数
+Route::get('param/{param}', function ($param) {
+    return $param;  //把参数解析成 $param
+});
+
+Route::get('param1/{param1}/param2/{param2}', function ($postId, $commentId) {
+    return $postId + $commentId;    // a  b  对应两个变量
+});
+
+//todo:可选路由参数
+Route::get('chose1/{name?}', function ($name = null) {
+    return $name;
+});
+
+Route::get('chose2/{name?}', function ($name = 'John') {
+    return $name;
+});
+
+
+//todo:正则表达式约束 参数格式
+Route::get('reg/{name}', function ($name) {
+    return $name;
+})->where('name', '[A-Za-z]+');
+
+Route::get('reg/{id}', function ($id) {
+    return $id;
+})->where('id', '[0-9]+');
+
+Route::get('reg/{id}/{name}', function ($id, $name) {
+    return [$name, $id];
+})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+//todo:路由全局约束  在 RouteServiceProvider 的 boot 方法里定义这些模式   Route::pattern('global', '[0-9]+');
+Route::get('global/{global}', function ($name) {
+    //Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路由上
+    return $name;
+});
+
+//todo:命名路由
+Route::get('named/profile', function () {
+    //命名路由可以方便的生成 URL 或者重定向
+    return $name = 777;
+})->name('profile');
+
+Route::get('named/profile/{name}', function ($name) {
+    //命名路由可以方便的生成 URL 或者重定向
+    return $name;
+})->name('profile_name');
+
+//可以为控制器方法指定路由名称：
+Route::get('test/named', '\App\Test\Controllers\RouteController@named')->name('alais');
+
+
+//todo:路由组  路由组允许共享路由属性，例如中间件和命名空间等，我们没有必要为每个路由单独设置共有属性，
+//todo:共有属性会以数组的形式放到 Route::group 方法的第一个参数中
+
+//中间件  待测
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', function ()    {
+        // 使用 `Auth` 中间件
+    });
+
+    Route::get('user/profile', function () {
+        // 使用 `Auth` 中间件
+    });
+});
+
+//命名空间
+Route::group(['namespace' => 'Admin'], function () {
+    // 在 "App\Http\Controllers\Admin" 命名空间下的控制器
+    //貌似只支持  App\Http\Controllers  空间下的
+});
+
+//子域名路由  待测
+Route::group(['domain' => '{account}.myapp.com'], function () {
+    //路由组也可以用作子域名的通配符，子域名可以像 URI 一样当作路由组的参数，
+    //因此允许把捕获的子域名一部分用于我们的路由或控制器。
+    //可以使用路由组属性的 domain 键声明子域名。
+    Route::get('user/{id}', function ($account, $id) {
+        return [$account, $id];
+    });
+});
+
+//路由前缀
+Route::group(['prefix' => 'test'], function () {
+    Route::get('prefix', function ()    {
+        // 匹配包含 "/admin/prefix" 的 URL
+        return 'prefix';
+    });
+});
+
+//todo:路由模型绑定
+/*当向路由控制器中注入模型 ID 时，我们通常需要查询这个 ID 对应的模型，
+Laravel 路由模型绑定提供了一个方便的方法自动将模型注入到我们的路由中，
+例如，除了注入一个用户的 ID，你也可以注入与指定 ID 匹配的完整 User 类实例。*/
+
+//隐式绑定  Laravel 会自动解析定义在路由或控制器方法（方法包含和路由片段匹配的已声明类型变量）中的 Eloquent 模型
+//参数名和模型名对应
+Route::get('eloquent/{user}', function (App\User $user) {
+    /*在这个例子中，由于类型声明了 Eloquent 模型 App\User，对应的变量名 $user 会匹配路由片段中的 {user}，
+    这样，Laravel 会自动注入与请求 URI 中传入的 ID 对应的用户模型实例。*/
+    dd($user);
+});
+
+//自定义键名
+Route::get('eloquentKey/{productsInstockShipping}', function (App\ProductsInstockShipping $productsInstockShipping) {
+    //如果你想要隐式模型绑定除 id 以外的数据库字段，你可以重写 Eloquent 模型类的getRouteKeyName 方法：
+    dd($productsInstockShipping);
+});
+
+//todo:显式绑定
+/*使用路由的 model 方法来为已有参数声明 class 。
+你应该在 RouteServiceProvider 类中的 boot 方法内定义这些显式绑定：*/
+Route::get('eloquentKeyObs/{pis}', function (App\ProductsInstockShipping $p) {
+    //Route::model('pis', ProductsInstockShipping::class);
+    dd($p);
+});
+
+//自定义解析逻辑
+Route::get('eloquentKeySelf/{self}', function (App\ProductsInstockShipping $p) {
+    /*
+     * 如果你想要使用自定义的解析逻辑，需要使用 Route::bind 方法，
+     * 传递到 bind 方法的闭包会获取到 URI 请求参数中的值，并且返回你想要在该路由中注入的类实例
+     *
+     * Route::bind('self', function ($value) {
+        return ProductsInstockShipping::where('products_instock_id', $value)->first();
+    *});
+    */
+    dd($p);
+});
+
+
+//todo:获取当前路由信息
+Route::get('test/current', '\App\Test\Controllers\RouteController@current');
+Route::get('test/route', function (){
+    $route = Route::current();
+    $name = Route::currentRouteName();
+    $action = Route::currentRouteAction();
+    dd([
+        $route,
+        $name,
+        $action
+    ]);
+});
+

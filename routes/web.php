@@ -80,3 +80,6 @@ Route::get('notices', '\App\Http\Controllers\NoticeController@index');
 
 //后台路由
 include_once 'admin.php';
+
+//测试路由
+include_once 'route.php';
