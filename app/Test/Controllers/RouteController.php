@@ -10,6 +10,19 @@ use Illuminate\Routing\Route;
 class RouteController extends Controller
 {
     /**
+     * RouteController constructor.
+     */
+    public function __construct()
+    {
+        //给控制器指定中间件
+        $this->middleware('auth');
+
+        $this->middleware('log')->only('index');
+
+        $this->middleware('subscribed')->except('store');
+    }
+
+    /**
      * 路由别名
      * @return \Illuminate\Http\RedirectResponse
      */

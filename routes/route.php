@@ -91,21 +91,50 @@ Route::get('test/named', '\App\Test\Controllers\RouteController@named')->name('a
 //todo:共有属性会以数组的形式放到 Route::group 方法的第一个参数中
 
 //中间件  待测
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', function ()    {
-        // 使用 `Auth` 中间件
-    });
+Route::get('middle/one', function () {
+    //设置一个中间件
+    return 'middlewareTest';
+})->middleware('middlewareTest');
 
-    Route::get('user/profile', function () {
-        // 使用 `Auth` 中间件
+
+Route::get('middle/classname', function () {
+    //设置一个中间件  用中间间类名
+    return \App\Http\Middleware\TestMiddleware::class;
+})->middleware(\App\Http\Middleware\TestMiddleware::class);
+
+Route::get('middle/many', function () {
+    //设置多个中间件
+    return 'many';
+})->middleware(\App\Http\Middleware\BeforeMiddleware::class, 'middlewareTest');
+
+//中间件组 web 是一个中间件组
+Route::get('middle/group', function () {
+    return 'web';
+})->middleware('web');
+
+//为一组路由设置 一个中间件
+Route::group(['middleware' => 'middlewareTest'], function () {
+    Route::get('middle/routeGroup', function ()    {
+        return 'routeGroup';
     });
 });
+
+//中间件参数
+Route::get('middle/param', function () {
+    //指定中间件参数可以通过冒号 : 来隔开中间件与参数，多个参数可以使用逗号分
+    return 'middle-param';
+})->middleware('middlewareTest:param');
+
+
+
 
 //命名空间
 Route::group(['namespace' => 'Admin'], function () {
     // 在 "App\Http\Controllers\Admin" 命名空间下的控制器
     //貌似只支持  App\Http\Controllers  空间下的
 });
+
+
 
 //子域名路由  待测
 Route::group(['domain' => '{account}.myapp.com'], function () {
@@ -179,3 +208,5 @@ Route::get('test/route', function (){
     ]);
 });
 
+//todo:单一方法控制器
+Route::get('single', '\App\Test\Controllers\SignleController');
