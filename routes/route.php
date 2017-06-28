@@ -269,3 +269,125 @@ Route::group(['prefix' => 'request'], function (){
     Route::get('/{id}', '\App\Test\Controllers\RequestController@param');
 
 });
+
+//todo:响应
+Route::group(['prefix' => 'response'], function (){
+    //响应字符串
+    Route::get('/string', function (){
+        return 'Hello World';
+    });
+    //响应数组 框架也会自动地将数组转为 JSON 响应
+    Route::get('array', function () {
+        return [1, 2, 3];
+    });
+    //响应集合
+    Route::get('eloquent', '\App\Test\Controllers\ResponseController@eloquent');
+    //响应对象
+    Route::get('/obj', function (){
+        return response('Hello World', 200)
+            ->header('Content-Type', 'text/plain');
+    });
+    //附加响应头信息
+    Route::get('add_header_msg', '\App\Test\Controllers\ResponseController@add_header_msg');
+
+    //附加 Cookie 至响应
+    Route::get('/cookie', function (){
+        return response('cookie')
+            ->header('Content-Type', 'text/plain')
+            ->cookie('name', 'value', 1);
+    });
+
+    //重定向
+    Route::get('/redirect', function (){
+        return redirect('response/cookie');
+    });
+    //重定向至上级一页面  功能利用了 Session，请确保调用 back 函数的路由是使用 web 中间件组或应用了所有的 Session 中间件
+    Route::post('/back', function () {
+        // 验证请求...
+        return back()->withInput();
+    })->middleware('web');
+
+    //重定向至命名路由
+    //当调用不带参数的辅助函数 redirect 时，会返回一个 Illuminate\Routing\Redirector 实例，
+    //该实例允许你调用 Redirector 实例的任何方法。
+    //例如，生成一个 RedirectResponse 重定向至一个被命名的路由时，您可以使用 route 方法：
+    Route::get('/redirect_route', function (){
+        return redirect()->route('profile');
+    });
+    //如果你的路由有参数，它们可以作为 route 方法的第二个参数来传递：
+    Route::get('/redirect_route_param', function (){
+        return redirect()->route('profile', ['id' => 1]);
+    });
+
+    //通过 Eloquent 模型填充参数
+    //  productsInstockShipping  products_instock_shipping 两种写法都可以
+    Route::get('/redirect_eloquent/{products_instock_shipping}', '\App\Test\Controllers\ResponseController@redirect_eloquent')->name('eloquent');
+    //如果要重定向到一个使用了 Eloquent 模型并需要传递 ID 参数的路由上，你只需传递模型本身即可，ID 会自动提取。
+    //如果想要更改自动提取的路由参数的键值，你应该重写 Eloquent 模型里的 getRouteKey 方法
+    Route::get('/redirectEloquent', function (){
+        $eloquent = \App\ProductsInstockShipping::find(253);
+        return redirect()->route('eloquent', [$eloquent]);
+    });
+
+    //重定向至控制器行为
+    //你可能也会用到生成重定向至 控制器行为的响应。要实现此功能，可以向 action 方法传递控制器和行为名称作为参数来实现。
+    //这里并不需要指定完整的命名空间，因为 Laravel 的 RouteServiceProvider 会自动设置基本的控制器命名空间
+    //只对 Http下面的起作用
+    Route::get('/action', function (){
+        if(0)return redirect()->action('LoginController@index');
+        //可以传递参数
+        return redirect()->action(
+            'UserController@profile', ['id' => 1]
+        );
+    });
+
+    //重定向并附加 Session 闪存数据
+    //重定向至一个新的 URL 的同时通常会 附加 Session 闪存数据。
+    //一般来说，在控制器行为成功地执行之后才会向 Session 中闪存成功的消息。
+    //为了方便，你可以利用链式调用的方式创建一个 RedirectResponse 的实例并闪存数据至 Session：
+    //在定向的页面  就可以  使用 session('status')
+    Route::post('session', function () {
+        return redirect('dashboard')->with('status', 'Profile updated!');
+    });
+
+    //其他响应类型
+    //视图响应 如果你的响应内容不但需要控制响应状态码和响应头信息而且还需要返回一个 视图，这时你应该使用 view 方法：
+    Route::get('/view', function (){
+        $a = 777;
+        return response()
+            ->view('test.index', compact('a'), 200)
+            ->header('Content-Type', 'text/plain');
+    });
+
+    //JSON 响应 json 方法会自动将 Content-Type 响应头信息设置为 application/json，并使用 PHP 的 json_encode 函数将数组转换为 JSON 字符串。
+    Route::get('/json', function (){
+        return response()->json([
+            'name' => 'Abigail',
+            'state' => 'CA'
+        ]);
+    });
+
+    //JSONP 响应 可以使用 json 方法并结合 withCallback 函数：
+    Route::get('/jsonp', function (\Illuminate\Http\Request $request){
+        return response()
+            ->json(['name' => 'Abigail', 'state' => 'CA'])
+            ->withCallback($request->input('callback'));
+    });
+
+    //文件下载
+    //download 方法可以用于生成强制让用户的浏览器下载指定路径文件的响应。
+    //download 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。
+    //最后，你可以传递一个包含 HTTP 头信息的数组作为第三个参数传入该方法：
+    Route::get('/download', function (){
+        if(0)return response()->download($pathToFile = '');
+        return response()->download($pathToFile = '', $name = '', $headers = []);
+    });
+
+    //文件响应
+    //file 方法可以用来显示一个文件，例如图片或者 PDF，直接在用户的浏览器中显示，而不是开始下载。
+    //这个方法的第一个参数是文件的路径，第二个参数是包含头信息的数组
+    Route::get('/file', function (){
+        if(0)return response()->file($pathToFile = '');
+        return response()->file($pathToFile = '', $headers = []);
+    });
+});

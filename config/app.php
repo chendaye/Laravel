@@ -181,6 +181,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //宏响应
+        \App\Providers\ResponseMacroServiceProvider::class,
+        //视图合成器
+        \App\Providers\ComposerServiceProvider::class,
+
     ],
 
     /*
