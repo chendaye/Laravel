@@ -51,13 +51,22 @@ Route::group(['prefix' => 'admin'], function (){
             Route::post('/powers/store', '\App\Admin\Controllers\PowerController@store');
         });
 
-        //todo: Policy 策略权限控制
+        //todo: Policy Gate 策略 Gate 权限控制
         Route::group(['middleware' => 'can:post'], function (){
             //后台文章列表页
             Route::get('/posts', '\App\Admin\Controllers\PostController@index');
             //后台文章审核
             Route::post('/posts/{post}/status', '\App\Admin\Controllers\PostController@status');
         });
+
+        //权限控制
+        Route::group(['middleware' => 'can:topic'], function (){
+            //专题页面的resource方法 制定控制器 会自动创建 rest方法  可以指定具体创建那些方法
+            Route::resource('/topics', '\App\Admin\Controllers\TopicController', ['only' => [
+                'index', 'create', 'store', 'destroy'
+            ]]);
+        });
+
     });
 });
 ?>

@@ -14,15 +14,22 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">
-                            <tbody>
-                            @foreach($users as $user)
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th>{{ $user->name }}</th>
-                                <th>操作</th>
-                            </tr>
-                            @endforeach
-                            </tbody>
+                        <tbody>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>用户名称</th>
+                            <th>操作</th>
+                        </tr>
+                        @foreach($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}.</td>
+                            <td>{{ $user->name }}</td>
+                            <td>
+                                <a type="button" class="btn" href="/Laravel/admin/users/{{ $user->id }}/role" >角色管理</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
                         </table>
                         {{ $users->links() }}
                     </div>

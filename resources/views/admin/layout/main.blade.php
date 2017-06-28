@@ -87,5 +87,6 @@
 <script src="/Laravel/public/adminlte/plugins/fastclick/fastclick.js"></script>
 <script src="/Laravel/public/js/admin.js"></script>
 <script src="/Laravel/public/js/post_manage.js"></script>
+<script src="/Laravel/public/js/resource.js"></script>
 </body>
 </html>

@@ -65,7 +65,13 @@ class AdminUser extends AuthentiUsers
      */
     public function hasPower(AdminPower $power)
     {
-        return $this->hasRole($power->roles);
+        //权限拥有的角色
+        $power_roles = $power->roles;
+        //用户拥有的角色
+        $user_roles = $this->roles;
+        //求交集 如果  交集非空  则有权限
+        return !!$user_roles->intersect($power_roles)->count();
+        //return $this->hasRole($power->roles);
     }
 
 }
