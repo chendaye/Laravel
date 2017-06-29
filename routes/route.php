@@ -391,3 +391,61 @@ Route::group(['prefix' => 'response'], function (){
         return response()->file($pathToFile = '', $headers = []);
     });
 });
+
+//todo:通过中间件授权
+/*
+ * 通过中间件
+Laravel 包含一个可以在请求到达路由或控制器之前就进行动作授权的中间件。
+默认，Illuminate\Auth\Middleware\Authorize 中间件被指定到 App\Http\Kernel 类中 can 键上。
+我们用一个授权用户更新博客的例子来讲解 can 中间件的使用*/
+
+/*
+ * 传递给 can 中间件 2 个参数。
+ * 第一个是需要授权的动作的名称，
+ * 第二个是我们希望传递给策略方法的路由参数。
+ * 这里因为使用了 隐式模型绑定，一个 Post 会被传递给策略方法。
+ * 如果用户不被授权访问指定的动作，这个中间件会生成带有 403 状态码的 HTTP 响应。*/
+Route::put('/post/{post}', function (Post $post) {
+    // 当前用户可以更新博客...
+})->middleware('can:update,post');
+
+/*
+ * 不需要指定模型的动作
+同样的，一些动作，比如 create，并不需要指定模型实例。
+在这种情况下，可传递一个类名给中间件。当授权动作时，这个类名将被用来判断使用哪个策略*/
+Route::post('/post', function () {
+    // 当前用户可以创建博客...
+})->middleware('can:create,App\Post');
+
+
+
+//todo:权限 Gate Policy 测试
+Route::group(['middleware' => 'auth:admin'], function (){
+
+   //Gate
+    //用中间件 进行 Gate 授权
+    Route::group(['prefix' => 'auth', 'middleware' => 'can:update-shipping'], function (){
+        Route::get('/gate/update', '\App\Test\Controllers\ProductsInstockShippingController@update_gate');
+    });
+    //用allow denies 方法进行 Gate 授权
+    Route::get('auth/gate/update_allow', '\App\Test\Controllers\ProductsInstockShippingController@update_gate_allow');
+    //指定 某个用户是否有 Gate 权限
+    Route::get('auth/gate/appoint', '\App\Test\Controllers\ProductsInstockShippingController@appoint_gate');
+
+    //Policy
+    Route::get('auth/policy/update', '\App\Test\Controllers\ProductsInstockShippingController@update_policy');
+    Route::get('auth/policy/create', '\App\Test\Controllers\ProductsInstockShippingController@create_policy');  //不需要模型
+    //辅助函数
+    Route::get('auth/policy/authorize', '\App\Test\Controllers\ProductsInstockShippingController@authorize_policy');
+    Route::get('auth/policy/authorize_none', '\App\Test\Controllers\ProductsInstockShippingController@authorize_policy_none_model');
+    //中间件  传到中间件的参数 要和路由参数名匹配
+    Route::get('auth/policy/middleware/{products_instock_shipping}', '\App\Test\Controllers\ProductsInstockShippingController@middleware_policy')
+   ->middleware('can:update,products_instock_shipping');
+
+    Route::get('auth/policy/middleware_p/{products_instock_shipping}', function (App\ProductsInstockShipping $productsInstockShipping) {
+        //Route::model('pis', ProductsInstockShipping::class);
+        dd($productsInstockShipping);
+    });
+    Route::get('auth/policy/middleware_none', '\App\Test\Controllers\ProductsInstockShippingController@middleware_policy_none')
+        ->middleware('can:create,App\ProductsInstockShipping');  //不需要模型
+});

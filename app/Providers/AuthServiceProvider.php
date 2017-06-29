@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\AdminPower;
+use App\ProductsInstockShipping;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -16,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
 //        'App\Model' => 'App\Policies\ModelPolicy',
         'App\Post' => 'App\Policies\PostPolicy',    //注册 post模型  策略类
+        'App\ProductsInstockShipping' => 'App\Policies\ProductsInstockShipping',    //注册 ProductsInstockShipping  策略类
     ];
 
     /**
@@ -50,5 +52,23 @@ class AuthServiceProvider extends ServiceProvider
                 return $user->hasPower($power);
             });
         }
+
+        //定义一个Gate
+        $shipping = ProductsInstockShipping::find(255);
+        Gate::define('update-shipping', function ($user)use($shipping) {
+            return $user->id <= $shipping->products_instock_id;
+        });
+
+        //恒为false 的Gate
+        Gate::define('update-ship', function ($user, $ship){
+            if($user->id == $ship->products_instock_id){
+                return true;
+            }elseif ($user->id == 1){
+                return true;
+            }elseif($user->id == 3){
+                //id=3 的用户是否有权限
+                return false;
+            }
+        });
     }
 }
