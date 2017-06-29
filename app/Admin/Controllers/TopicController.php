@@ -48,6 +48,11 @@ class TopicController extends Controller
         return redirect('admin/topics');
     }
 
+    /**
+     * 删除专题
+     * @param Topic $topic
+     * @return array
+     */
     public function destroy(Topic $topic)
     {
         //删除

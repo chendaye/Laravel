@@ -59,7 +59,7 @@ Route::group(['prefix' => 'admin'], function (){
             Route::post('/posts/{post}/status', '\App\Admin\Controllers\PostController@status');
         });
 
-        //权限控制
+        //专题管理
         Route::group(['middleware' => 'can:topic'], function (){
             //专题页面的resource方法 制定控制器 会自动创建 rest方法  可以指定具体创建那些方法
             Route::resource('/topics', '\App\Admin\Controllers\TopicController', ['only' => [
@@ -67,6 +67,12 @@ Route::group(['prefix' => 'admin'], function (){
             ]]);
         });
 
+        //通知管理
+        Route::group(['middleware' => 'can:notice'], function (){
+            Route::resource('/notices', '\App\Admin\Controllers\NoticeController', ['only' => [
+                'index', 'create', 'store'
+            ]]);
+        });
     });
 });
 ?>

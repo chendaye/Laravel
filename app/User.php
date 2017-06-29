@@ -101,7 +101,7 @@ class User extends AuthentiUsers
      */
     public function receivedNotices()
     {
-        return $this->belongsToMany(AdminNotice::class, 'user_notice', 'user_id', 'notice_id')->withPivot('user_id', 'notice_id');
+        return $this->belongsToMany(Notice::class, 'user_notice', 'user_id', 'notice_id')->withPivot('user_id', 'notice_id');
     }
 
     /**
@@ -112,7 +112,7 @@ class User extends AuthentiUsers
      */
     public function hasReceived($notice)
     {
-        return !!$this->belongsToMany(AdminNotice::class, 'user_notice', 'user_id', 'notice_id')
+        return !!$this->belongsToMany(Notice::class, 'user_notice', 'user_id', 'notice_id')
             ->wherePivotIn('notice_id', [$notice->id])->get();
     }
 

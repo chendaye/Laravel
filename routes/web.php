@@ -58,10 +58,12 @@ Route::get('logout', '\App\Http\Controllers\LoginController@logout');
 //个人设置页面
 //设置页面
 Route::get('user/me/set', '\App\Http\Controllers\UserController@set');
-Route::post('user/me/set', '\App\Http\Controllers\UserController@store');
+Route::post('user/{user}/set', '\App\Http\Controllers\UserController@settingStore');
 
 //个人中心
 Route::get('user/{user}', '\App\Http\Controllers\UserController@show');
+
+
 //关注某人
 Route::post('user/{user}/fan', '\App\Http\Controllers\UserController@fan');
 //取消关注某人
@@ -72,6 +74,9 @@ Route::post('user/{user}/unFan', '\App\Http\Controllers\UserController@unFan');
 Route::get('topic/{topic}', '\App\Http\Controllers\TopicController@show');
 //投稿
 Route::post('topic/{topic}/submit', '\App\Http\Controllers\TopicController@submit');
+
+//通知管理
+Route::get('notices', '\App\Http\Controllers\NoticeController@index');
 
 //后台路由
 include_once 'admin.php';

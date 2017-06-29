@@ -8,15 +8,38 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    /**
+     * 用户设置页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function set()
     {
-        return view('user.set');
+        //当前登录用户
+        $user = Auth::user();
+        return view('user.set', compact('user'));
     }
 
-    public function store()
+    public function settingStore(Request $request, User $user)
     {
+        $this->validate(request(),[
+            'name' => 'min:3',
+        ]);
 
+        $name = request('name');
+        if ($name != $user->name) {
+            if(\App\User::where('name', $name)->count() > 0) {
+                return back()->withErrors(array('message' => '用户名称已经被注册'));
+            }
+            $user->name = request('name');
+        }
+        if ($request->file('avatar')) {
+            $path = $request->file('avatar')->storePublicly(md5(\Auth::id() . time()));
+            $user->avatar = "storage/app/public/". $path;
+        }
+        $user->save();
+        return back();
     }
+
 
     /**
      * 用户个人中心
@@ -38,6 +61,11 @@ class UserController extends Controller
         $faners = User::whereIn('id', $fans->pluck('fun_id'))->withCount(['stars', 'fans', 'posts'])->get();
         return view('user.show', compact('user', 'posts', 'stars', 'starers', 'fans', 'faners'));
     }
+
+
+
+
+
 
     /**
      * 关注用户
