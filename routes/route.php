@@ -449,3 +449,9 @@ Route::group(['middleware' => 'auth:admin'], function (){
     Route::get('auth/policy/middleware_none', '\App\Test\Controllers\ProductsInstockShippingController@middleware_policy_none')
         ->middleware('can:create,App\ProductsInstockShipping');  //不需要模型
 });
+
+
+//todo:数据库操作
+Route::group(['prefix' => 'mysql'], function (){
+    Route::get('native', '\App\Test\Controllers\DBController@native_sql');
+});
