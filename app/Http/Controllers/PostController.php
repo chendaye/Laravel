@@ -93,7 +93,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //权限验证
+        //权限验证 给模型post定义了一个策略   此处用策略方法 进行权限判断
         $this->authorize('edit', $post);
         return view('post/edit',compact('post'));
     }
@@ -114,7 +114,8 @@ class PostController extends Controller
         ]);
 
         //权限验证
-        $this->authorize('update', $post); //  可传递一个类名给 authorize 方法。当授权动作时，这个类名将被用来判断使用哪个策略：
+        //  可传递一个类名给 authorize 方法。当授权动作时，这个类名将被用来判断使用哪个策略：
+        $this->authorize('update', $post);
         //逻辑
         $post->title = \request('title');
         $post->content = \request('content');
@@ -129,7 +130,9 @@ class PostController extends Controller
     public function delete(Post $post)
     {
         //权限判断
-        $this->authorize('delete', $post);  //使用  Post模型的策略类 PostPolicy  里定义的delete 策略方法来判断
+        //使用  Post模型的策略类 PostPolicy  里定义的delete 策略方法来判断
+        //策略方法  需要传入当前用户  和策略拥有者的实例
+        $this->authorize('delete', $post);
         //todo:用户权限验证
         $post->delete();
         return redirect("/posts");
