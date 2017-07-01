@@ -34,7 +34,7 @@ class UserController extends Controller
         }
         if ($request->file('avatar')) {
             $path = $request->file('avatar')->storePublicly(md5(\Auth::id() . time()));
-            $user->avatar = "storage/app/public/". $path;
+            $user->avatar = "/Laravel/storage/app/public/". $path;
         }
         $user->save();
         return back();

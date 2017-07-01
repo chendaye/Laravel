@@ -16,6 +16,11 @@ Route::group(['prefix' => 'admin'], function (){
         //首页
         Route::get('/home', '\App\Admin\Controllers\HomeController@index');
 
+        //个人中心
+        Route::get('/users/{user}', '\App\Admin\Controllers\UserController@set');
+        Route::post('/users/{user}/set', '\App\Admin\Controllers\UserController@setStore');
+
+
         //todo:Gate 权限控制
         Route::group(['middleware' => 'can:system'], function (){
             //用户
@@ -29,6 +34,7 @@ Route::group(['prefix' => 'admin'], function (){
             Route::get('/users/{user}/role', '\App\Admin\Controllers\UserController@role');
             //保存角色
             Route::post('/users/{user}/role', '\App\Admin\Controllers\UserController@roleStore');
+
 
             //角色
             //角色列表

@@ -2,6 +2,7 @@
 namespace App\Admin\Controllers;
 use App\AdminRole;
 use App\AdminUser;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * 管理员管理
@@ -100,6 +101,47 @@ class UserController extends Controller
         }
         //渲染
         return back();
+    }
+
+    /**
+     * 后台用户设置中心
+     * @param AdminUser $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function set(AdminUser $user)
+    {
+       // $user = AdminUser::find($user->id);
+        return view('admin.user.set', compact('user'));
+    }
+
+    public function setStore(AdminUser $user, \Illuminate\Http\Request $request)
+    {
+        //验证
+        $this->validate(request(), [
+            'name' => 'required|string',
+        ]);
+        //逻辑
+        $name = request('name');
+        //修改的名称不能相同
+        if($name != $user->name){
+            $exist = AdminUser::where('name', $name)->count();
+            if(!$exist){
+                $user->name = request('name');
+            }else{
+                return back()->withErrors([
+                    'message' => '用户名已经被注册！',
+                ]);
+            }
+            if($request->file('avatar')){
+                $path = $request->file('avatar')->storePublicly(md5($user->id).time());
+                //http://www.dragon-god.com/Laravel/public/storage/c4ca4238a0b923820dcc509a6f75849b1498907864/Lq2w1lrTDdKhFiLpclLjzLfb5IZX9dRpGfvl74bu.jpeg
+                $path = asset('/public/storage/'.$path);
+                $user->avatar = $path;
+            }
+            $user->save();
+        }
+        //渲染
+        return redirect('admin/home');
     }
 
 }

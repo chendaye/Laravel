@@ -18,7 +18,7 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="/Laravel/adminlte/#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/Laravel/adminlte/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                        <img src="{{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->avatar }}" class="user-image" alt="User Image">
                         <span class="hidden-xs">{{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
@@ -26,12 +26,20 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-right">
+                                <a href="/Laravel/admin/users/{{ Illuminate\Support\Facades\Auth::guard('admin')->user()->id }}"  class="btn btn-default btn-flat">个人设置</a>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-right">
                                 <a href="/Laravel/admin/logout" class="btn btn-default btn-flat">Sign out</a>
                             </div>
                         </li>
+
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
+
+
 </header>    <!-- Left side column. contains the logo and sidebar -->
