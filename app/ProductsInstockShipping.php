@@ -14,6 +14,8 @@ class ProductsInstockShipping extends Model
     protected $table = 'products_instock_shipping';
     //自定义主键
     protected $primaryKey = 'products_instock_id';
+    //时间戳
+    public $timestamps = false;
 
     /**
      * 如果自定义主键了 这个方法可以不必

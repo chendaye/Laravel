@@ -454,4 +454,12 @@ Route::group(['middleware' => 'auth:admin'], function (){
 //todo:数据库操作
 Route::group(['prefix' => 'mysql'], function (){
     Route::get('native', '\App\Test\Controllers\DBController@native_sql');
+    //数据查询
+    //DB
+    Route::get('/db_base', '\App\Test\Controllers\DBController@db_base');
+    Route::get('/paginate', '\App\Test\Controllers\DBController@paginate');
+    //Eloquent
+    Route::get('/eloquent_get', '\App\Test\Controllers\EloquentController@eloquent_get');
+    Route::get('/eloquent_save', '\App\Test\Controllers\EloquentController@eloquent_save');
 });
+
