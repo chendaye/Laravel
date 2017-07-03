@@ -461,5 +461,48 @@ Route::group(['prefix' => 'mysql'], function (){
     //Eloquent
     Route::get('/eloquent_get', '\App\Test\Controllers\EloquentController@eloquent_get');
     Route::get('/eloquent_save', '\App\Test\Controllers\EloquentController@eloquent_save');
+    Route::get('/eloquent_del', '\App\Test\Controllers\EloquentController@eloquent_del');
+    //scope
+    Route::get('/scope', '\App\Test\Controllers\EloquentController@scope');
+    //event
+    Route::get('/event', '\App\Test\Controllers\EloquentController@event');
+
+    //修改器 访问器
+    Route::get('/alert', '\App\Test\Controllers\EloquentAlertController@alert');
+    Route::get('/visit', '\App\Test\Controllers\EloquentAlertController@visit');
+    //日期修改器
+    Route::get('/date', '\App\Test\Controllers\EloquentAlertController@date');
+    //序列化
+    Route::get('/toArray', '\App\Test\Controllers\EloquentSerializeController@toArray');
+    Route::get('/toJson', '\App\Test\Controllers\EloquentSerializeController@toJson');
+});
+
+//todo:集合操作
+Route::group(['prefix' => 'collect'], function (){
+    //创建集合
+    Route::get('create', '\App\Test\Controllers\CollectionController@createCollect');
+    //返回集合中所有项目的平均值
+    Route::get('avg', '\App\Test\Controllers\CollectionController@avg');
+    //将集合拆成多个指定大小的较小集合
+    Route::get('chunk', '\App\Test\Controllers\CollectionController@chunk');
+    //将多个数组组成的集合合成单个一维数组集合
+    Route::get('collapse', '\App\Test\Controllers\CollectionController@collapse');
+    //将集合的值作为「键」，合并另一个数组或者集合作为「键」对应的值
+    Route::get('combine', '\App\Test\Controllers\CollectionController@combine');
+    //判断集合是否含有指定项目
+    Route::get('contains', '\App\Test\Controllers\CollectionController@contains');
+    //返回该集合内的项目总数
+    Route::get('count', '\App\Test\Controllers\CollectionController@count');
+    //将集合与其它集合或纯 PHP 数组 进行值的比较，返回第一个集合中存在而第二个集合中不存在
+    Route::get('diff', '\App\Test\Controllers\CollectionController@diff');
+    //将集合与其它集合或纯 PHP 数组 的「键」进行比较，返回第一个集合中存在而第二个集合中不存在「键」所对应的键值对
+    Route::get('diffKeys', '\App\Test\Controllers\CollectionController@diffKeys');
+    //遍历集合中的项目，并将之传入回调函数
+    Route::get('each', '\App\Test\Controllers\CollectionController@each');
+    //判断集合中每一个元素是否都符合指定条件
+    Route::get('every', '\App\Test\Controllers\CollectionController@every');
+    //返回集合中除了指定键以外的所有项目
+    Route::get('except', '\App\Test\Controllers\CollectionController@except');
+
 });
 
