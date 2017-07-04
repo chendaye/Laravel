@@ -210,3 +210,62 @@ Route::get('test/route', function (){
 
 //todo:单一方法控制器
 Route::get('single', '\App\Test\Controllers\SignleController');
+
+//todo:资源路由控制器
+
+//如果你想在默认的资源路由之外增加资源控制器路由，
+//你应该在调用 Route::resource 之前定义这些路由；否则，resource 方法定义的路由可能会不小心覆盖你的附加路由：
+Route::get('source/method', '\App\Test\Controllers\ResourceController@method');
+
+//完全资源路由
+Route::resource('source', '\App\Test\Controllers\ResourceController');
+
+//声明资源路由的时候，你可以指定控制器处理部分操作，而不必使用全部默认的操作：
+Route::resource('photo', '\App\Test\Controllers\PhotoController', ['only' => [
+    'index', 'show'
+]]);
+
+Route::resource('photo', '\App\Test\Controllers\PhotoController', ['except' => [
+    'create', 'store', 'update', 'destroy'
+]]);
+
+//命名资源路由
+//默认地，所有的资源路由操作都有一个路由名称；不过你可以在参数选项中传入一个 names 数组来重写这些名称：
+Route::resource('photo', '\App\Test\Controllers\PhotoController', ['names' => [
+    'create' => 'photo.build'
+]]);
+
+//命名资源路由参数
+//默认地，Route::resource 会基于资源名称的「单数」形式生成路由参数。
+//你可以在选项数组中传入 parameters 参数，实现每个资源基础中参数名称的重写。
+//parameters 应该是一个将资源名称和参数名称联系在一起的数组：
+//将会为 show 方法的路由生成如下的 URI：/user/{admin_user}
+Route::resource('user', 'AdminUserController', ['parameters' => [
+    'user' => 'admin_user'
+]]);
+
+
+//todo:请求
+Route::group(['prefix' => 'request'], function (){
+    Route::get('/', '\App\Test\Controllers\RequestController@request');
+    //路径
+    Route::get('/path', '\App\Test\Controllers\RequestController@path');
+    //url
+    Route::get('/url', '\App\Test\Controllers\RequestController@url');
+    //方法
+    Route::get('/method', '\App\Test\Controllers\RequestController@method');
+    //请求输入值
+    Route::get('/input/{name}', '\App\Test\Controllers\RequestController@input');
+    //旧输入数据
+    Route::get('/oldData/{name}', '\App\Test\Controllers\RequestController@oldData');
+    //注入测试
+    Route::get('/closure', '\App\Test\Controllers\RequestController@closure');
+    //文件资源
+    Route::get('/file', '\App\Test\Controllers\RequestController@file');
+    //通过路由闭包获取请求
+    Route::get('/inject', function (\Illuminate\Http\Request $request){
+        dd($request);
+    });
+    Route::get('/{id}', '\App\Test\Controllers\RequestController@param');
+
+});
