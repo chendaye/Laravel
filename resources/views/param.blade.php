@@ -130,3 +130,43 @@ $loop->parent	当在嵌套的循环内时，可以访问到父循环中的 $loop
     //
 @endphp
 {{----}}
+
+
+{{--Blade 授权--}}
+{{--通过 Blade 模板
+当编写 Blade 模板时，你可能希望页面的指定部分只展示给允许授权访问给定动作的用户。
+例如，你可能希望只展示更新表单给有权更新博客的用户。
+这种情况下，你可以直接使用 @can 和 @cannot 指令。--}}
+
+@can('update', $post)
+    <!-- 当前用户可以更新博客 -->
+@elsecan('create', $post)
+    <!-- 当前用户可以新建博客 -->
+@endcan
+
+@cannot('update', $post)
+    <!-- 当前用户不可以更新博客 -->
+@elsecannot('create', $post)
+    <!-- 当前用户不可以新建博客 -->
+@endcannot
+
+{{--等价于--}}
+@if (Auth::user()->can('update', $post))
+    <!-- 当前用户可以更新博客 -->
+@endif
+
+@unless (Auth::user()->can('update', $post))
+    <!-- 当前用户不可以更新博客 -->
+@endunless
+
+{{--不需要指定模型的动作
+和大部分其他的授权方法类似，当动作不需要模型实例时，
+你可以传递一个类名给 @can 和 @cannot 指令--}}
+@can('create', Post::class)
+    <!-- 当前用户可以新建博客 -->
+@endcan
+
+@cannot('create', Post::class)
+    <!-- 当前用户不可以新建博客 -->
+@endcannot
+{{----}}
