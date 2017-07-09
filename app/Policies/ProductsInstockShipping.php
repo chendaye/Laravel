@@ -28,7 +28,7 @@ class ProductsInstockShipping
      */
     public function update(AdminUser $user, \App\ProductsInstockShipping $shipping)
     {
-        return ($user->id <= $shipping->products_instock_id);
+        return ($user->id != $shipping->products_instock_id);
     }
 
     /**
@@ -40,7 +40,7 @@ class ProductsInstockShipping
      */
     public function create(AdminUser $user)
     {
-        return ($user->id == 1);
+        return ($user->id != 1);
     }
 
     /**

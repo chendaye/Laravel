@@ -16,10 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
 //        'App\Model' => 'App\Policies\ModelPolicy',
-        //注册 post模型  策略类
-        'App\Post' => 'App\Policies\PostPolicy',
-        //注册 ProductsInstockShipping  策略类
-        'App\ProductsInstockShipping' => 'App\Policies\ProductsInstockShipping',
+        'App\Post' => 'App\Policies\PostPolicy',    //注册 post模型  策略类
+        'App\ProductsInstockShipping' => 'App\Policies\ProductsInstockShipping',    //注册 ProductsInstockShipping  策略类
     ];
 
     /**
@@ -56,13 +54,21 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         //定义一个Gate
-        $shipping = ProductsInstockShipping::find(6);
+        $shipping = ProductsInstockShipping::find(255);
         Gate::define('update-shipping', function ($user)use($shipping) {
             return $user->id <= $shipping->products_instock_id;
         });
 
+        //恒为false 的Gate
         Gate::define('update-ship', function ($user, $ship){
-            return ($user->id != $ship->products_instock_id);
+            if($user->id == $ship->products_instock_id){
+                return true;
+            }elseif ($user->id == 1){
+                return true;
+            }elseif($user->id == 3){
+                //id=3 的用户是否有权限
+                return false;
+            }
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Topic;
+use Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -50,6 +51,13 @@ class AppServiceProvider extends ServiceProvider
         //todo:自定义模板命令
         Blade::directive('datetime', function ($expression) {
             return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
+        });
+
+        //todo:监听查询事件
+        DB::listen(function ($query) {
+            // $query->sql
+            // $query->bindings
+            // $query->time
         });
     }
 
