@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\ShippingObserver;
+use App\ProductsInstockShipping;
 use App\Topic;
 use Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Validator;
@@ -59,6 +61,9 @@ class AppServiceProvider extends ServiceProvider
             // $query->bindings
             // $query->time
         });
+
+        //todo:注册 ProductsInstockShipping 模型观察者
+        ProductsInstockShipping::observe(ShippingObserver::class);
     }
 
     /**
