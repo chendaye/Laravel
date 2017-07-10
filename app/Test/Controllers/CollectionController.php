@@ -199,6 +199,598 @@ class CollectionController extends Controller
         dump($collection);
     }
 
+    /**
+     * 使用回调函数筛选集合，只留下那些通过判断测试的项目
+     */
+    public function filter()
+    {
+        $collection = collect([1, 2, 3, 4]);
+
+        //筛选符合条件的记录
+        $filtered = $collection->filter(function ($value, $key) {
+            return $value > 2;
+        });
+        $collection = $filtered->all();
+
+        //如果没有提供回调函数，集合中所有返回 false 的元素都会被移除：
+        $collection = collect([1, 2, 3, null, false, '', 0, []]);
+
+        $collection = $collection->filter()->all();
+        dump($collection);
+    }
+
+    /**
+     * 返回集合第一个通过指定测试的元素
+     */
+    public function first()
+    {
+        $collection = collect([1, 2, 3, 4])->first(function ($value, $key) {
+            return $value > 2;
+        });
+
+        //你也可以不传入参数使用 first 方法以获取集合中第一个元素。如果集合是空的，则会返回
+        $collection = collect([1, 2, 3, 4])->first();
+        dump($collection);
+    }
+
+    /**
+     * 对集合内所有子集遍历执行回调，并在最后转为一维集合
+     */
+    public function flatMap()
+    {
+        $collection = collect([
+            ['name' => 'Sally'],
+            ['school' => 'Arkansas'],
+            ['age' => 28]
+        ]);
+        //对每个值执行回调函数
+        $flattened = $collection->flatMap(function ($values) {
+            return array_map('strtoupper', $values);
+        });
+
+        $collection = $flattened->all();
+        dump($collection);
+    }
+
+    /**
+     * 将多维集合转为一维集合
+     */
+    public function flatten()
+    {
+        $collection = collect(['name' => 'taylor', 'languages' => ['php', 'javascript']]);
+
+        $flattened = $collection->flatten();
+
+        $collection = $flattened->all();
+
+        //可以选择性地传入遍历深度的参数
+        /*
+         * 调用 flatten 方法时不传入深度参数会遍历嵌套数组降维成一维数组，
+         * 生成 ['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']，传入深度参数能让你限制降维嵌套数组的层数*/
+        $collection = collect([
+            'Apple' => [
+                ['name' => 'iPhone 6S', 'brand' => 'Apple'],
+            ],
+            'Samsung' => [
+                ['name' => 'Galaxy S7', 'brand' => 'Samsung']
+            ],
+        ]);
+
+        $products = $collection->flatten(1);
+
+        $collection = $products->values()->all();
+        dump($collection);
+    }
+
+    /**
+     * 将集合中的键和对应的数值进行互换
+     */
+    public function flip()
+    {
+        $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
+
+        $flipped = $collection->flip();
+
+        $collection = $flipped->all();
+
+        dump($collection);
+    }
+
+    /**
+     * 通过集合的键来移除掉集合中的一个项目
+     */
+    public function forget()
+    {
+        $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
+        //通过键名删除元素
+        $collection->forget('name');
+        $collection = $collection->all();
+        dump($collection);
+    }
+
+    /**
+     * 返回可用来在指定页码上所显示项目的新集合。这个方法第一个参数是页码数，第二个参数是每页显示的个数
+     */
+    public function forPage()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+        //页码 每页显示的个数
+        $chunk = $collection->forPage(2, 3);
+
+        $collection = $chunk->all();
+        dump($collection);
+    }
+
+    /**
+     * 返回指定键的项目。如果该键不存在，则返回 null
+     */
+    public function get()
+    {
+        $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
+
+        $value = $collection->get('name');
+
+        //可以选择性地传入一个默认值作为第二个参数
+        $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
+
+        $value = $collection->get('foo', 'default-value');
+
+        //可以传入回调函数当默认值。如果指定的键不存在，就会返回回调函数的运行结果
+        $value = $collection->get('email', function () {
+            return 'default-value-clouse';
+        });
+
+        dump($value);
+    }
+
+    /**
+     * 根据指定的「键」为集合内的项目分组
+     */
+    public function groupBy()
+    {
+        $collection = collect([
+            ['account_id' => 'account-x10', 'product' => 'Chair'],
+            ['account_id' => 'account-x10', 'product' => 'Bookcase'],
+            ['account_id' => 'account-x11', 'product' => 'Desk'],
+        ]);
+
+        $grouped = $collection->groupBy('account_id');
+
+        $collection = $grouped->toArray();
+
+        //除了传入字符串的「键」之外，你也可以传入回调函数。该函数应该返回你希望用来分组的键的值
+        $grouped = $collection->groupBy(function ($item, $key) {
+            return substr($item['account_id'], -3);
+        });
+
+        $collection = $grouped->toArray();
+
+        dump($collection);
+    }
+
+    /**
+     * 检查集合中是否含有指定的「键」
+     */
+    public function has()
+    {
+        $collection = collect(['account_id' => 1, 'product' => 'Desk']);
+
+        $collection = $collection->has('product');
+
+        dump($collection);
+    }
+
+    /**
+     * implode 方法合并集合中的项目。它的参数依集合中的项目类型而定。
+     * 假如集合含有数组或对象，你应该传入你希望连接的属性的「键」，以及你希望放在数值之间的拼接字符串
+     */
+    public function implode()
+    {
+        $collection = collect([
+            ['account_id' => 1, 'product' => 'Desk'],
+            ['account_id' => 2, 'product' => 'Chair'],
+        ]);
+
+        $collection = $collection->implode('product', ', ');
+
+        //假如集合只含有简单的字符串或数字，则只需要传入拼接的字符串作为该方法的唯一参数即可
+
+        $collection = collect([1, 2, 3, 4, 5])->implode('-');
+        dump($collection);
+    }
+
+    /**
+     * 移除任何指定 数组 或集合内所没有的数值。最终集合保存着原集合的键
+     */
+    public function intersect()
+    {
+        $collection = collect(['Desk', 'Sofa', 'Chair']);
+
+        //就是取交集
+        $intersect = $collection->intersect(['Desk', 'Chair', 'Bookcase']);
+
+        $collection = $intersect->all();
+        dump($collection);
+    }
+
+    /**
+     * 如果集合是空的，isEmpty 方法会返回 true：否则返回 false
+     */
+    public function isEmpty()
+    {
+        $collect = collect([])->isEmpty();
+        dump($collect);
+    }
+
+    /**
+     * 以指定键的值作为集合项目的键。如果几个数据项有相同的键，那在新集合中只显示最后一项
+     */
+    public function keyBy()
+    {
+        //用指定的键值 排序
+        $collection = collect([
+            ['product_id' => 'prod-100', 'name' => 'desk'],
+            ['product_id' => 'prod-200', 'name' => 'chair'],
+        ]);
+
+        $keyed = $collection->keyBy('product_id');
+
+        $collect = $keyed->all();
+
+        //也可以传入自己的回调函数，该函数应该返回集合的键的值：
+        $keyed = $collection->keyBy(function ($item) {
+            return strtoupper($item['product_id']);
+        });
+
+        $collect = $keyed->all();
+        dump($collect);
+    }
+
+    /**
+     * 返回该集合所有的键
+     */
+    public function keys()
+    {
+        $collection = collect([
+            'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
+            'prod-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
+        ]);
+        $keys = $collection->keys();
+        $collect = $keys->all();
+        dump($collect);
+    }
+
+    /**
+     * 返回集合中，最后一个通过指定测试的元素
+     */
+    public function last()
+    {
+        $collect = collect([1, 2, 3, 4])->last(function ($value, $key) {
+            return $value < 3;
+        });
+
+        //你也可以不传入参数使用 last 方法以获取集合中最后一个元素。如果集合是空的，则会返回
+        $collect = collect([1, 2, 3, 4])->last();
+        dump($collect);
+    }
+
+    /**
+     * 遍历整个集合并将每一个数值传入回调函数。回调函数可以任意修改并返回项目，形成修改过的项目组成的新集合
+     */
+    public function map()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $multiplied = $collection->map(function ($item, $key) {
+            return $item * 2;
+        });
+
+        $collection = $multiplied->all();
+        dd($collection);
+    }
+
+    /**
+     * 遍历整个集合并将每一个数值传入回调函数。回调函数返回包含一个键值对的关联数组
+     */
+    public function mapWithKeys()
+    {
+        //自己组装键值对
+        $collection = collect([
+            [
+                'name' => 'John',
+                'department' => 'Sales',
+                'email' => 'john@example.com'
+            ],
+            [
+                'name' => 'Jane',
+                'department' => 'Marketing',
+                'email' => 'jane@example.com'
+            ]
+        ]);
+
+        /*
+    [
+        'john@example.com' => 'John',
+        'jane@example.com' => 'Jane',
+    ]
+*/
+        $keyed = $collection->mapWithKeys(function ($item) {
+            return [$item['email'] => $item['name']];
+        });
+
+        $collection = $keyed->all();
+        dd($collection);
+    }
+
+    /**
+     * 计算指定键的最大值
+     */
+    public function max()
+    {
+        $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
+
+        $max = collect([1, 2, 3, 4, 5])->max();
+        dump($max);
+    }
+
+    /**
+     * 合并数组进集合。数组「键」对应的数值会覆盖集合「键」对应的数值
+     */
+    public function merge()
+    {
+        $collection = collect(['product_id' => 1, 'price' => 100]);
+
+        $merged = $collection->merge(['price' => 200, 'discount' => false]);
+
+        $collection = $merged->all();
+
+        //如果指定数组的「键」为数字，则「值」将会合并到集合的后面：
+        $collection = collect(['Desk', 'Chair']);
+
+        $merged = $collection->merge(['Bookcase', 'Door']);
+
+        $merged->all();
+        dump($collection);
+    }
+
+    /**
+     * 计算指定「键」的最小值
+     */
+    public function min()
+    {
+        $min = collect([['foo' => 10], ['foo' => 20]])->min('foo');
+
+        $min = collect([1, 2, 3, 4, 5])->min();
+        dd($min);
+    }
+
+    /**
+     * 由每隔第 n 个元素组成一个新的集合
+     */
+    public function nth()
+    {
+        $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
+        $collection = $collection->nth(4);
+
+        //你也可以选择传入一个偏移量作为第二个参数
+        $collection = $collection->nth(4, 1);
+        dd($collection);
+    }
+
+    /**
+     * 返回集合中指定键的所有项目
+     */
+    public function only()
+    {
+        $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
+
+        $filtered = $collection->only(['product_id', 'name']);
+
+        $ret = $filtered->all();
+        dump($ret);
+    }
+
+    /**
+     * 结合 PHP 中的 list 方法来分开符合指定条件的元素以及那些不符合指定条件的元素
+     */
+    public function partition()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6]);
+
+        list($underThree, $aboveThree) = $collection->partition(function ($i) {
+            return $i < 3;
+        });
+    }
+
+    /**
+     * 将集合传给回调函数并返回结果
+     */
+    public function pipe()
+    {
+        $collection = collect([1, 2, 3]);
+
+        $piped = $collection->pipe(function ($collection) {
+            return $collection->sum();
+        });
+
+        dump($piped);
+    }
+
+    /**
+     * 获取集合中指定「键」所有对应的值
+     */
+    public function pluck()
+    {
+        $collection = collect([
+            ['product_id' => 'prod-100', 'name' => 'Desk'],
+            ['product_id' => 'prod-200', 'name' => 'Chair'],
+        ]);
+
+//        $plucked = $collection->pluck('name');
+//
+//        $collection  = $plucked->all();
+
+        //也可以指定最终集合的键
+        $plucked = $collection->pluck('name', 'product_id');
+
+        $collection  = $plucked->all();
+        dd($collection);
+    }
+
+    /**
+     * 移除并返回集合最后一个项目
+     */
+    public function pop()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $collection->pop();
+
+        $ret = $collection->all();
+        dump($ret);
+    }
+
+    /**
+     * 在集合前面增加一项数组的值
+     */
+    public function prepend()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $collection->prepend(0);
+
+        $ret = $collection->all();
+
+        //你可以传递第二个参数来设置新增加项的键
+        $collection = collect(['one' => 1, 'two' => 2]);
+
+        $collection->prepend(0, 'zero');
+
+        $ret = $collection->all();
+        dump($ret);
+    }
+
+    /**
+     * 把「键」对应的值从集合中移除并返回
+     */
+    public function pull()
+    {
+        $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
+
+        $collection->pull('name');
+
+        $ret = $collection->all();
+        dump($ret);
+    }
+
+    /**
+     * 在集合的后面新添加一个元素
+     */
+    public function push()
+    {
+        $collection = collect([1, 2, 3, 4]);
+
+        $collection->push(5);
+
+        $ret = $collection->all();
+        dump($ret);
+    }
+
+    /**
+     * 在集合内设置一个「键/值」
+     */
+    public function put()
+    {
+        $collection = collect(['product_id' => 1, 'name' => 'Desk']);
+
+        $collection->put('price', 100);
+
+        $collection = $collection->all();
+        dump($collection);
+    }
+
+    /**
+     * random 方法从集合中随机返回一个项目：
+     */
+    public function random()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $ret = $collection->random();
+
+        //可以选择性地传入一个整数到 random。如果该整数大于 1，则会返回一个集合：
+        $random = $collection->random(3);
+        $ret = $random->all();
+        dump($ret);
+    }
+
+    /**
+     * reduce 方法将集合缩减到单个数值，该方法会将每次迭代的结果传入到下一次迭代
+     */
+    public function reduce()
+    {
+        $collection = collect([1, 2, 3]);
+
+        $total = $collection->reduce(function ($carry, $item) {
+            return $carry + $item;
+        });
+
+        //第一次迭代时 $carry 的数值为 null；然而你也可以传入第二个参数进 reduce 以指定它的初始值
+        $total = $collection->reduce(function ($carry, $item) {
+            return $carry + $item;
+        }, 4);
+        dump($total);
+    }
+
+    /**
+     * reject 方法以指定的回调函数筛选集合。会移除掉那些通过判断测试（即结果返回 true）的项目
+     */
+    public function reject()
+    {
+        $collection = collect([1, 2, 3, 4]);
+
+        //去掉符合要求的
+        $filtered = $collection->reject(function ($value, $key) {
+            return $value > 2;
+        });
+
+        $ret = $filtered->all();
+        dump($ret);
+    }
+
+    /**
+     * reverse 方法倒转集合内项目的顺序
+     */
+    public function reverse()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $reversed = $collection->reverse();
+
+        $ret = $reversed->all();
+        dump($ret);
+    }
+
+    /**
+     * search 方法在集合内搜索指定的数值并返回找到的键。假如找不到项目，则返回 false
+     */
+    public function search()
+    {
+        $collection = collect([2, 4, 6, 8]);
+
+       $ret =  $collection->search(4);
+
+       //搜索是用「宽松」匹配来进行，也就是说如果字符串值是整数那它就跟这个整数是相等的。
+        //要使用严格匹配的话，就传入 true 为该方法的第二个参数
+        $ret = $collection->search('4', true);
+
+        //你可以传入你自己的回调函数来搜索第一个通过你判断测试的项目
+        $ret =  $collection->search(function ($item, $key) {
+            return $item > 5;
+        });
+       dump($ret);
+    }
 
 
 }

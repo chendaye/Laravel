@@ -427,4 +427,74 @@ Route::group(['prefix' => 'collect'], function (){
     Route::get('every', '\App\Test\Controllers\CollectionController@every');
     //返回集合中除了指定键以外的所有项目
     Route::get('except', '\App\Test\Controllers\CollectionController@except');
+    //使用回调函数筛选集合，只留下那些通过判断测试的项目
+    Route::get('filter', '\App\Test\Controllers\CollectionController@filter');
+    //返回集合第一个通过指定测试的元素
+    Route::get('first', '\App\Test\Controllers\CollectionController@first');
+    //对集合内所有子集遍历执行回调，并在最后转为一维集合
+    Route::get('flatMap', '\App\Test\Controllers\CollectionController@flatMap');
+    //将多维集合转为一维集合
+    Route::get('flatten', '\App\Test\Controllers\CollectionController@flatten');
+    //将集合中的键和对应的数值进行互换
+    Route::get('flip', '\App\Test\Controllers\CollectionController@flip');
+    //通过集合的键来移除掉集合中的一个项目
+    Route::get('forget', '\App\Test\Controllers\CollectionController@forget');
+    //返回可用来在指定页码上所显示项目的新集合。这个方法第一个参数是页码数，第二个参数是每页显示的个数
+    Route::get('forPage', '\App\Test\Controllers\CollectionController@forPage');
+    //返回指定键的项目
+    Route::get('get', '\App\Test\Controllers\CollectionController@get');
+    //根据指定的「键」为集合内的项目分组
+    Route::get('groupBy', '\App\Test\Controllers\CollectionController@groupBy');
+    //检查集合中是否含有指定的「键」
+    Route::get('has', '\App\Test\Controllers\CollectionController@has');
+    //implode 方法合并集合中的项目
+    Route::get('implode', '\App\Test\Controllers\CollectionController@implode');
+    //移除任何指定 数组 或集合内所没有的数值。最终集合保存着原集合的键
+    Route::get('intersect', '\App\Test\Controllers\CollectionController@intersect');
+    //如果集合是空的，isEmpty 方法会返回 true：否则返回 false
+    Route::get('isEmpty', '\App\Test\Controllers\CollectionController@isEmpty');
+    //以指定键的值作为集合项目的键。如果几个数据项有相同的键，那在新集合中只显示最后一项
+    Route::get('keyBy', '\App\Test\Controllers\CollectionController@keyBy');
+    //返回该集合所有的键
+    Route::get('keys', '\App\Test\Controllers\CollectionController@keys');
+    //返回集合中，最后一个通过指定测试的元素
+    Route::get('last', '\App\Test\Controllers\CollectionController@last');
+    //遍历整个集合并将每一个数值传入回调函数。回调函数可以任意修改并返回项目，形成修改过的项目组成的新集合
+    Route::get('map', '\App\Test\Controllers\CollectionController@map');
+    //遍历整个集合并将每一个数值传入回调函数。回调函数返回包含一个键值对的关联数组
+    Route::get('mapWithKeys', '\App\Test\Controllers\CollectionController@mapWithKeys');
+    //计算指定键的最大值
+    Route::get('max', '\App\Test\Controllers\CollectionController@max');
+    //合并数组进集合。数组「键」对应的数值会覆盖集合「键」对应的数值
+    Route::get('merge', '\App\Test\Controllers\CollectionController@merge');
+    //计算指定「键」的最小值
+    Route::get('min', '\App\Test\Controllers\CollectionController@min');
+    //由每隔第 n 个元素组成一个新的集合
+    Route::get('nth', '\App\Test\Controllers\CollectionController@nth');
+    //返回集合中指定键的所有项目
+    Route::get('only', '\App\Test\Controllers\CollectionController@only');
+    //将集合传给回调函数并返回结果
+    Route::get('pipe', '\App\Test\Controllers\CollectionController@pipe');
+    //获取集合中指定「键」所有对应的值
+    Route::get('pluck', '\App\Test\Controllers\CollectionController@pluck');
+    //移除并返回集合最后一个项目
+    Route::get('pop', '\App\Test\Controllers\CollectionController@pop');
+    //在集合前面增加一项数组的值
+    Route::get('prepend', '\App\Test\Controllers\CollectionController@prepend');
+    //把「键」对应的值从集合中移除并返回
+    Route::get('pull', '\App\Test\Controllers\CollectionController@pull');
+    //在集合的后面新添加一个元素
+    Route::get('push', '\App\Test\Controllers\CollectionController@push');
+    //在集合内设置一个「键/值」
+    Route::get('put', '\App\Test\Controllers\CollectionController@put');
+    //random 方法从集合中随机返回一个项目
+    Route::get('random', '\App\Test\Controllers\CollectionController@random');
+    //reduce 方法将集合缩减到单个数值，该方法会将每次迭代的结果传入到下一次迭代
+    Route::get('reduce', '\App\Test\Controllers\CollectionController@reduce');
+    //reject 方法以指定的回调函数筛选集合。会移除掉那些通过判断测试（即结果返回 true）的项目
+    Route::get('reject', '\App\Test\Controllers\CollectionController@reject');
+    //reverse 方法倒转集合内项目的顺序
+    Route::get('reverse', '\App\Test\Controllers\CollectionController@reverse');
+    //search 方法在集合内搜索指定的数值并返回找到的键。假如找不到项目，则返回 false
+    Route::get('search', '\App\Test\Controllers\CollectionController@search');
 });
