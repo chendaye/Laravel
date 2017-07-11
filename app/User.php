@@ -125,4 +125,6 @@ class User extends AuthentiUsers
         //模型关联返回的还是模型   不是 集合   模型关联产生的动态属性才是集合
         $this->receivedNotices()->save($notice);
     }
+
+
 }

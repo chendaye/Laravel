@@ -1,5 +1,6 @@
 <?php
 namespace App\Test\Controllers;
+use App\User;
 
 
 /**
@@ -792,6 +793,400 @@ class CollectionController extends Controller
        dump($ret);
     }
 
+    /**
+     * shift 方法移除并返回集合的第一个项目
+     */
+    public function shift()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $collection->shift();
+
+        $collection = $collection->all();
+        dump($collection);
+    }
+
+    /**
+     * shuffle 方法随机排序集合的项目
+     */
+    public function shuffle()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $shuffled = $collection->shuffle();
+
+        $collection = $shuffled->all();
+        dd($collection);
+    }
+
+    /**
+     * slice 方法返回集合从指定索引开始的一部分切片
+     */
+    public function slice()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+        $slice = $collection->slice(4);
+
+        $collection = $slice->all();
+        dump($collection);
+
+        //如果你想限制返回切片的大小，就传入想要的大小为方法的第二个参数
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $slice = $collection->slice(4, 2);
+
+        $collection = $slice->all();
+        dump($collection);
+        //返回的切片将会保留原始键作为索引。假如你不希望保留原始的键，你可以使用 values 方法来重新建立索引
+    }
+
+    /**
+     * 对集合排序。排序后的集合保留着原始数组的键，
+     * 所以在这个例子里我们用 values 方法来把键设置为连续数字的键
+     */
+    public function sort()
+    {
+        $collection = collect([5, 3, 1, 2, 4]);
+        //对值排序 排序之后键保留不变
+        $sorted = $collection->sort();
+
+        $sorted = $sorted->values()->all();
+        dump($sorted);
+    }
+
+    /**
+     * 以指定的键排序集合。
+     * 排序后的集合保留了原始数组键，
+     * 所以在这个例子中我们用 values method 把键设置为连续数字的索引建
+     */
+    public function sortBy()
+    {
+        $collection = collect([
+            ['name' => 'Desk', 'price' => 200],
+            ['name' => 'Chair', 'price' => 100],
+            ['name' => 'Bookcase', 'price' => 150],
+        ]);
+
+        //用指定的键值来排序 保留原始的键
+        $sorted = $collection->sortBy('price');
+        $sorted = $sorted->values()->all();
+
+        //也可以传入自己的回调函数以决定如何排序集合数值
+        $collection = collect([
+            ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
+            ['name' => 'Chair', 'colors' => ['Black']],
+            ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
+        ]);
+
+        $sorted = $collection->sortBy(function ($value, $key) {
+            return count($value['colors']);
+        });
+
+        $sorted->values()->all();
+        dump($sorted);
+    }
+
+    /**
+     * 与 sortBy 有着一样的形式，但是会以相反的顺序来排序集合
+     */
+    public function sortByDesc()
+    {
+
+    }
+
+    /**
+     * 返回从指定的索引开始的一小切片项目，原本集合也会被切除
+     */
+    public function splice()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        //集合切为两份
+        $chunk = $collection->splice(2);
+
+        $a = $chunk->all();
+        dump($a);
+        $b = $collection->all();
+        dump($b);
+
+        //你可以传入第二个参数以限制大小
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $chunk = $collection->splice(2, 1);
+
+        $a = $chunk->all();
+        dump($a);
+        $b = $collection->all();
+        dump($b);
+
+        //你可以传入含有新项目的第三个参数以取代集合中被移除的项目
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $chunk = $collection->splice(2, 1, [10, 11]);
+
+        $a = $chunk->all();
+        dump($a);
+        $b = $collection->all();
+        dump($b);
+    }
+
+    /**
+     * 将集合按指定组数分解
+     */
+    public function split()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $groups = $collection->split(3);
+        dump($groups);
+        $array = $groups->toArray();
+        dump($array);
+    }
+
+    /**
+     * 返回集合内所有项目的总和
+     */
+    public function sum()
+    {
+        $sum = collect([1, 2, 3, 4, 5])->sum();
+
+        //如果集合包含嵌套数组或对象，你应该传入一个「键」来指定要用哪些数值来计算总和
+        $collection = collect([
+            ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
+            ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
+        ]);
+
+        $sum = $collection->sum('pages');
+
+        //可以传入自己的回调函数来决定要用哪些数值来计算总和
+
+        $collection = collect([
+            ['name' => 'Chair', 'colors' => ['Black']],
+            ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
+            ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
+        ]);
+
+        $sum = $collection->sum(function ($product) {
+            return count($product['colors']);
+        });
+        dump($sum);
+    }
+
+    /**
+     * 返回有着指定数量项目的集合
+     */
+    public function take()
+    {
+        $collection = collect([0, 1, 2, 3, 4, 5]);
+
+        $chunk = $collection->take(3);
+
+        $take = $chunk->all();
+
+        //你也可以传入负整数以获取从集合后面来算指定数量的项目 返回后面的元素
+        $collection = collect([0, 1, 2, 3, 4, 5]);
+
+        $chunk = $collection->take(-2);
+
+        $take = $chunk->all();
+        dump($take);
+    }
+
+    /**
+     * 将集合转换成纯 PHP 数组。假如集合的数值是 Eloquent 模型，也会被转换成数组
+     */
+    public function toArray()
+    {
+        $collection = collect(['name' => 'Desk', 'price' => 200]);
+
+        $array = $collection->toArray();
+        dump($array);
+    }
+
+    /**
+     * 将集合转换成 JSON
+     */
+    public function toJson()
+    {
+        $collection = collect(['name' => 'Desk', 'price' => 200]);
+
+        $json = $collection->toJson();
+        dump($json);
+    }
+
+    /**
+     * 遍历集合并对集合内每一个项目调用指定的回调函数。集合的项目将会被回调函数返回的数值取代掉
+     */
+    public function transform()
+    {
+        $collection = collect([1, 2, 3, 4, 5]);
+
+        $collection->transform(function ($item, $key) {
+            return $item * 2;
+        });
+
+        $collection = $collection->all();
+        dump($collection);
+    }
+
+    /**
+     * 将给定的数组合并到集合中，如果数组中含有与集合一样的「键」，集合的键值会被保留
+     */
+    public function union()
+    {
+        $collection = collect([1 => ['a'], 2 => ['b']]);
+        //有一样的保留原元素
+        $union = $collection->union([3 => ['c'], 1 => ['b']]);
+
+        $ret = $union->all();
+        dump($ret);
+    }
+
+    /**
+     * unique 方法返回集合中所有唯一的项目。
+     * 返回的集合保留着原始键，所以在这个例子中我们用 values 方法来把键重置为连续数字的键
+     */
+    public function unique()
+    {
+        $collection = collect([1, 1, 2, 2, 3, 4, 2]);
+
+        $unique = $collection->unique();
+
+        $ret = $unique->values()->all();
+
+        //当处理嵌套数组或对象的时候，你可以指定用来决定唯一性的键
+        $collection = collect([
+            ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
+            ['name' => 'iPhone 5', 'brand' => 'Apple', 'type' => 'phone'],
+            ['name' => 'Apple Watch', 'brand' => 'Apple', 'type' => 'watch'],
+            ['name' => 'Galaxy S6', 'brand' => 'Samsung', 'type' => 'phone'],
+            ['name' => 'Galaxy Gear', 'brand' => 'Samsung', 'type' => 'watch'],
+        ]);
+
+        $unique = $collection->unique('brand');
+
+        $ret = $unique->values()->all();
+
+//        你可以传入自己的回调函数来确定项目的唯一性  自定义唯一性
+        $unique = $collection->unique(function ($item) {
+            return $item['brand'].$item['type'];
+        });
+
+        $ret = $unique->values()->all();
+        dump($ret);
+    }
+
+    /**
+     * 返回「键」重新被设为「连续整数」的新集合
+     */
+    public function values()
+    {
+        $collection = collect([
+            10 => ['product' => 'Desk', 'price' => 200],
+            11 => ['product' => 'Desk', 'price' => 200]
+        ]);
+
+        $values = $collection->values();
+
+        $ret = $values->all();
+        dump($ret);
+    }
+
+    /**
+     * 当第一个参数运算结果为 true 的时候，会执行第二个参数传入的闭包：
+     */
+    public function when()
+    {
+        $collection = collect([1, 2, 3]);
+
+        $collection->when(true, function ($collection) {
+            return $collection->push(4);
+        });
+
+        $ret = $collection->all();
+        dump($ret);
+    }
+
+    /**
+     * 以一对指定的「键／数值」筛选集合
+     */
+    public function where()
+    {
+        $collection = collect([
+            ['product' => 'Desk', 'price' => 200],
+            ['product' => 'Chair', 'price' => 100],
+            ['product' => 'Bookcase', 'price' => 150],
+            ['product' => 'Door', 'price' => 100],
+        ]);
+
+        $filtered = $collection->where('price', 100);
+
+        $ret = $filtered->all();
+        dump($ret);
+
+    }
+
+    /**
+     * 这个方法与 where 方法有着一样的形式；但是会以「严格」匹配来匹配数值
+     */
+    public function whereStrict()
+    {
+
+    }
+
+    /**
+     * 基于参数中的键值数组进行过滤：
+     */
+    public function whereIn()
+    {
+        $collection = collect([
+            ['product' => 'Desk', 'price' => 200],
+            ['product' => 'Chair', 'price' => 100],
+            ['product' => 'Bookcase', 'price' => 150],
+            ['product' => 'Door', 'price' => 100],
+        ]);
+
+        $filtered = $collection->whereIn('price', [150, 200]);
+
+        $ret = $filtered->all();
+        dump($ret);
+    }
+
+    /**
+     * zip 方法将集合与指定数组相同索引的值合并在一起
+     */
+    public function zip()
+    {
+        $collection = collect(['Chair', 'Desk']);
+
+        //键值相同的聚合在一起
+        $zipped = $collection->zip([100, 200]);
+
+        $ret = $zipped->all();
+        dump($ret);
+    }
+
+    /**
+     * 高阶信息传递
+     * 集合也提供「高阶信息传递支持」，这是对集合执行常见操作的快捷方式。
+     * 支持高阶信息传递的集合方法有：
+     * contains， each， every， filter， first， map， partition， reject， sortBy， sortByDesc 和 sum
+     */
+    public function HighOrder()
+    {
+        /*
+         * 每个高阶信息都能作为集合实例的动态属性来访问。
+         * 例如，我们在集合中使用 each 高阶信息传递方法拉哎对每个对象去调用一个方法*/
+        $users = User::where('id', '<', 500)->get();
+
+      // $ret = $users->each->markAsVip();
+
+        //同样 可以使用 sum 高阶信息传递的方式来统计出集合中用户总共的
+        $users = User::where('id', '7')->get();
+        //当做动态属性
+        $ret = $users->sum->id;
+        dump($ret);
+    }
 
 }
 ?>

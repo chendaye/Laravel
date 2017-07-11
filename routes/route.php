@@ -497,4 +497,45 @@ Route::group(['prefix' => 'collect'], function (){
     Route::get('reverse', '\App\Test\Controllers\CollectionController@reverse');
     //search 方法在集合内搜索指定的数值并返回找到的键。假如找不到项目，则返回 false
     Route::get('search', '\App\Test\Controllers\CollectionController@search');
+    //shift 方法移除并返回集合的第一个项目
+    Route::get('shift', '\App\Test\Controllers\CollectionController@shift');
+    //shuffle 方法随机排序集合的项目
+    Route::get('shuffle', '\App\Test\Controllers\CollectionController@shuffle');
+    //slice 方法返回集合从指定索引开始的一部分切片
+    Route::get('slice', '\App\Test\Controllers\CollectionController@slice');
+    //对集合排序。排序后的集合保留着原始数组的键
+    Route::get('sort', '\App\Test\Controllers\CollectionController@sort');
+    //以指定的键排序集合。排序后的集合保留了原始数组键
+    Route::get('sortBy', '\App\Test\Controllers\CollectionController@sortBy');
+    //返回从指定的索引开始的一小切片项目，原本集合也会被切除
+    Route::get('splice', '\App\Test\Controllers\CollectionController@splice');
+    //将集合按指定组数分解
+    Route::get('split', '\App\Test\Controllers\CollectionController@split');
+    //返回集合内所有项目的总和
+    Route::get('sum', '\App\Test\Controllers\CollectionController@sum');
+    //返回有着指定数量项目的集合
+    Route::get('take', '\App\Test\Controllers\CollectionController@take');
+    //将集合转换成纯 PHP 数组。假如集合的数值是 Eloquent 模型，也会被转换成数组
+    Route::get('toArray', '\App\Test\Controllers\CollectionController@toArray');
+    //将集合转换成 JSON
+    Route::get('toJson', '\App\Test\Controllers\CollectionController@toJson');
+    //遍历集合并对集合内每一个项目调用指定的回调函数。集合的项目将会被回调函数返回的数值取代掉
+    Route::get('transform', '\App\Test\Controllers\CollectionController@transform');
+    //将给定的数组合并到集合中，如果数组中含有与集合一样的「键」，集合的键值会被保留
+    Route::get('union', '\App\Test\Controllers\CollectionController@union');
+    //unique 方法返回集合中所有唯一的项目。
+    Route::get('unique', '\App\Test\Controllers\CollectionController@unique');
+    //返回「键」重新被设为「连续整数」的新集合
+    Route::get('values', '\App\Test\Controllers\CollectionController@values');
+    //当第一个参数运算结果为 true 的时候，会执行第二个参数传入的闭包
+    Route::get('when', '\App\Test\Controllers\CollectionController@when');
+    //以一对指定的「键／数值」筛选集合
+    Route::get('where', '\App\Test\Controllers\CollectionController@where');
+    //基于参数中的键值数组进行过滤：
+    Route::get('whereIn', '\App\Test\Controllers\CollectionController@whereIn');
+    //zip 方法将集合与指定数组相同索引的值合并在一起
+    Route::get('zip', '\App\Test\Controllers\CollectionController@zip');
+    //高阶信息传递
+    Route::get('HighOrder', '\App\Test\Controllers\CollectionController@HighOrder');
+
 });
