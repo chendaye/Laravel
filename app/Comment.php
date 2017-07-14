@@ -28,4 +28,15 @@ class Comment extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+
+
+    /**
+     * 反向一对多
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function posts()
+    {
+        //第一个参数：子表  第二个参数：子表关联ID 第三个参数：父表ID
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
 }

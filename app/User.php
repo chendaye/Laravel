@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as AuthentiUsers;
-use PhpParser\Node\Expr\Cast\Object_;
+use App\Phone;
 
 /**
  * 继承自带的门脸类
@@ -126,5 +126,14 @@ class User extends AuthentiUsers
         $this->receivedNotices()->save($notice);
     }
 
-
+    /**
+     * 一对一关联
+     * 获取用户电话
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function phone()
+    {
+        //第一个参数：子表  第二个参数：子表关联ID  第三个参数：父表ID
+        return $this->hasOne(Phone::class, 'user_id', 'id');
+    }
 }

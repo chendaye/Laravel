@@ -539,3 +539,17 @@ Route::group(['prefix' => 'collect'], function (){
     Route::get('HighOrder', '\App\Test\Controllers\CollectionController@HighOrder');
 
 });
+
+//todo:模型关联
+Route::group(['prefix' => 'eloquent_relate'], function (){
+    //一对一
+    Route::get('one_to_one', '\App\Test\Controllers\EloquentRelateController@one_to_one');
+    //反向一对一
+    Route::get('reverse_one_to_one', '\App\Test\Controllers\EloquentRelateController@reverse_one_to_one');
+    //一对多
+    Route::get('one_to_many', '\App\Test\Controllers\EloquentRelateController@one_to_many');
+    //反向一对多
+    Route::get('reverse_one_to_many', '\App\Test\Controllers\EloquentRelateController@reverse_one_to_many');
+    //多对多
+    Route::get('many_to_many', '\App\Test\Controllers\EloquentRelateController@many_to_many');
+});

@@ -51,4 +51,9 @@ class AdminRole extends Model
     {
         return $this->powers()->contains($power);
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(AdminUser::class, 'admin_role_user', 'role_id', 'user_id');
+    }
 }

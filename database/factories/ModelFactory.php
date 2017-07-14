@@ -11,6 +11,7 @@
 |
 */
 
+//factory(App\User::class, 'admin', 10)->create();
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
@@ -28,6 +29,27 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
         'content' => $faker->paragraph($nbSentences = 10, $variableNbSentences = true),
+    ];
+});
+
+$factory->define(\App\Phone::class, function (Faker\Generator $faker) {
+    return [
+        'num' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
+        'user_id' =>  function () {
+            return factory(App\User::class)->create()->id;
+        } ,
+    ];
+});
+
+$factory->define(\App\Comment::class, function (Faker\Generator $faker) {
+    return [
+        'content' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
+        'user_id' =>  function () {
+            return factory(App\User::class)->create()->id;
+        } ,
+        'post_id' => function () {
+            return factory(App\Post::class)->create()->id;
+        } ,
     ];
 });
 

@@ -121,6 +121,15 @@ class Post extends Model
             //只要未删除的文章
             $builder->whereIn('status', [0,1]);
         });
+    }
 
+    /**
+     * 一对多
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        //第一个参数：子表 第二个参数：子表关联ID 第三个参数：附表ID
+        return $this->hasMany(Comment::class, 'post_id', 'id');
     }
 }

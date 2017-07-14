@@ -74,4 +74,10 @@ class AdminUser extends AuthentiUsers
         //return $this->hasRole($power->roles);
     }
 
+
+    public function role()
+    {
+        return $this->belongsToMany(AdminRole::class, 'admin_role_user', 'user_id', 'role_id');
+    }
+
 }
