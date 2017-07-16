@@ -75,9 +75,16 @@ class AdminUser extends AuthentiUsers
     }
 
 
+    /**
+     * 多对多
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function role()
     {
-        return $this->belongsToMany(AdminRole::class, 'admin_role_user', 'user_id', 'role_id');
+        //第一个参数：中间表 第二个参数：要关联的ID  第三个参数 ：自身关联ID
+        //wherePivotIn('priority', [1, 2]) 通过中间表过滤字段
+        return $this->belongsToMany(AdminRole::class, 'admin_role_user', 'user_id', 'role_id')
+            ->withPivot('created_at ', 'updated_at')->withTimestamps()->wherePivot('user_id', 4);;
     }
 
 }

@@ -552,4 +552,6 @@ Route::group(['prefix' => 'eloquent_relate'], function (){
     Route::get('reverse_one_to_many', '\App\Test\Controllers\EloquentRelateController@reverse_one_to_many');
     //多对多
     Route::get('many_to_many', '\App\Test\Controllers\EloquentRelateController@many_to_many');
+    //远程一对多
+    Route::get('away_many_to_many', '\App\Test\Controllers\EloquentRelateController@away_many_to_many');
 });

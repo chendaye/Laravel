@@ -41,15 +41,39 @@ $factory->define(\App\Phone::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(\App\Book::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
+    ];
+});
+
+$factory->define(\App\Video::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
+    ];
+});
+
 $factory->define(\App\Comment::class, function (Faker\Generator $faker) {
     return [
         'content' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
-        'user_id' =>  function () {
-            return factory(App\User::class)->create()->id;
-        } ,
-        'post_id' => function () {
-            return factory(App\Post::class)->create()->id;
-        } ,
+        'user_id' =>  1 ,
+        'post_id' => 2,
+        'commentable_id' =>function () {
+            if(factory(App\Book::class)->create()->id < 250){
+                return factory(App\Book::class)->create()->id;
+            }else{
+                return factory(App\Video::class)->create()->id;
+            }
+        },
+        'commentable_type' =>function () {
+            if(factory(App\Book::class)->create()->id < 250){
+                return App\Book::class;
+            }else{
+                return App\Video::class;
+            }
+        },
     ];
 });
+
+
 

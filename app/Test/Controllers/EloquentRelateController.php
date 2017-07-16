@@ -65,14 +65,27 @@ class EloquentRelateController extends Controller
     public function many_to_many()
     {
         $admin_user = AdminUser::find(1);
-        dump($admin_user);
+        //dump($admin_user);
         $many = $admin_user->role;
-        dump($many);
+        //dump($many);
         /*****************/
         $admin_role = AdminRole::find(4);
-        dump($admin_role);
+        //dump($admin_role);
         $many = $admin_role->user;
         dump($many);
+        /***********/
+        //取出的每个 Role 模型对象，都会被自动赋予 pivot 属性。
+        //此属性代表中间表的模型，它可以像其它的 Eloquent 模型一样被
+        foreach ($many as $value){
+            dump($value->pivot->created_at);
+        }
+    }
+
+    public function away_many_to_many()
+    {
+        $user = User::find(382);
+        $away = $user->away_many_to_many;
+        dump($away);
     }
 }
 ?>

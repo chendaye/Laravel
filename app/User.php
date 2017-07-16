@@ -136,4 +136,16 @@ class User extends AuthentiUsers
         //第一个参数：子表  第二个参数：子表关联ID  第三个参数：父表ID
         return $this->hasOne(Phone::class, 'user_id', 'id');
     }
+
+    /**
+     * 远程一对多
+     * 一个用户多个文章，一个文章多个评论
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function away_many_to_many()
+    {
+        //hasManyThrough 方法的第一个参数为我们希望最终访问的模型名称，而第二个参数为中间模型的名称
+        //第三个参数为中间模型的外键名称，而第四个参数为最终模型的外键名称，第五个参数则为本地键
+        return $this->hasManyThrough('App\Comment', 'App\Post','user_id','post_id','id');
+    }
 }

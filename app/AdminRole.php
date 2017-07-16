@@ -52,8 +52,14 @@ class AdminRole extends Model
         return $this->powers()->contains($power);
     }
 
+    /**
+     * 多对多
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function user()
     {
-        return $this->belongsToMany(AdminUser::class, 'admin_role_user', 'role_id', 'user_id');
+        //第一个参数：中间表 第二个参数：要关联的ID  第三个参数 ：自身关联ID
+        return $this->belongsToMany(AdminUser::class, 'admin_role_user', 'role_id', 'user_id')
+            ->withPivot('created_at ', 'updated_at');
     }
 }
