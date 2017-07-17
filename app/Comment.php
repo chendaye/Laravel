@@ -39,4 +39,15 @@ class Comment extends Model
         //第一个参数：子表  第二个参数：子表关联ID 第三个参数：父表ID
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }
+
+
+    /**
+     * 多态关联
+     * 方法名 commentable_id  commentable_type  前面部分
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
 }

@@ -554,4 +554,18 @@ Route::group(['prefix' => 'eloquent_relate'], function (){
     Route::get('many_to_many', '\App\Test\Controllers\EloquentRelateController@many_to_many');
     //远程一对多
     Route::get('away_many_to_many', '\App\Test\Controllers\EloquentRelateController@away_many_to_many');
+    //多态关联
+    Route::get('status_many', '\App\Test\Controllers\EloquentRelateController@status_many');
+    //多态多对多
+    Route::get('status_many_to_many', '\App\Test\Controllers\EloquentRelateController@status_many_to_many');
+    //查找关联
+    Route::get('eloquent_where', '\App\Test\Controllers\EloquentRelateController@eloquent_where');
+    //动态属性 关联方法
+    Route::get('auto_attribute', '\App\Test\Controllers\EloquentRelateController@auto_attribute');
+    //查找关联是否存在
+    Route::get('eloquent_exist', '\App\Test\Controllers\EloquentRelateController@eloquent_exist');
+    //关联统计
+    Route::get('relate_count', '\App\Test\Controllers\EloquentRelateController@relate_count');
+    //预加载
+    Route::get('preload', '\App\Test\Controllers\EloquentRelateController@preload');
 });

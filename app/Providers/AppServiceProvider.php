@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Book;
 use App\Observers\ShippingObserver;
 use App\ProductsInstockShipping;
 use App\Topic;
+use App\Video;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +67,13 @@ class AppServiceProvider extends ServiceProvider
 
         //todo:注册 ProductsInstockShipping 模型观察者
         ProductsInstockShipping::observe(ShippingObserver::class);
+
+        //todo:「多态对照表」来指引 Eloquent 对各个模型使用自定义名称而非类名
+        //除了在此注册，也可以创建一个独立且满足你要求的服务提供者
+        Relation::morphMap([
+            'book' => Book::class,
+            'video' => Video::class,
+        ]);
     }
 
     /**
