@@ -6,6 +6,7 @@ use App\Book;
 use App\Comment;
 use App\Phone;
 use App\Post;
+use App\Providers\ComposerServiceProvider;
 use App\Tag;
 use App\User;
 use App\Video;
@@ -285,6 +286,90 @@ class EloquentRelateController extends Controller
             $query->orderBy('id', 'asc');
         }]);
         dump($users);
+    }
+
+    public function write()
+    {
+        //save saveMany 方法
+        /*
+         * Eloquent 提供了便捷的方法来将新的模型增加至关联中。
+         * 例如，将新的 Comment 写入至 Post 模型。除了手动设置 Comment 的 post_id 属性外，
+         * 你也可以直接使用关联的 save 方法来写入 Comment*/
+        $comment = new Comment(['content' => 'A new comment.']);
+        $post = Post::find(1);
+        $post->comments()->save($comment);
+        $post = Post::find(1);
+        $com = $post->comments;
+       // dump($com);
+
+        //如果你需要保存多个关联模型，则可以使用 saveMany 方法
+        $post = Post::find(2);
+
+        $post->comments()->saveMany([
+            new Comment(['content' => 'A new comment.']),
+            new Comment(['content' => 'Another comment.']),
+        ]);
+        $post = Post::find(2);
+        $com = $post->comments;
+        //dump($com);
+
+        //Create 方法
+        /*
+         * 除了 save 与 saveMany 方法外，你也可以使用 create 方法，该方法允许传入属性的数组来建立模型并写入数据库。
+         * save 与 create 的不同之处在于，save 允许传入一个完整的 Eloquent 模型实例，但 create 只允许传入原始的 PHP 数组*/
+        $post = Post::find(2);
+
+        $comment = $post->comments()->create([
+            'content' => 'qqqqqqqqqqqqqqqqqqqqq',
+        ]);
+        $post = Post::find(2);
+        $com = $post->comments;
+
+
+        //更新「从属」关联
+        /*当更新一个 belongsTo 关联时，可以使用 associate 方法。此方法会将外键设置到下层模型*/
+
+        $comment = Comment::find(30);
+
+        $post = Post::find(2);
+
+       // $post->comments()->associate($comment);
+        $post->save();
+       // dd($post);
+
+        //当删除一个 belongsTo 关联时，你可以使用 dissociate 方法。此方法会置该关联的外键为空
+       // $post->account()->dissociate();
+
+        $post->save();
+
+
+        //多对多关联
+        /*
+         * 附加与卸除
+         * 当使用多对多关联时，Eloquent 提供了一些额外的辅助函数让操作关联模型更加方便。
+         * 例如，让我们假设一个用户可以拥有多个身份，且每个身份都可以被多个用户拥有。
+         * 要附加一个规则至一个用户，并连接模型以及将记录写入至中间表，则可以使用 attach 方法*/
+        $user = AdminUser::find(1);
+        $roleId = 55;
+        $user->roles()->attach($roleId);
+        //当附加一个关联至模型时，你也可以传递一个需被写入至中间表的额外数据数组
+        $user->roles()->attach(77, ['created_at' => '2017-07-19']);
+
+        //可使用 detach 方法。detach 方法会从中间表中移除正确的纪录；当然，这两个模型依然会存在于数据库中
+        // 移除用户身上某一身份...
+        $roleId = 77;
+        $user->roles()->detach($roleId);
+
+        // 移除用户身上所有身份...
+        //$user->roles()->detach();
+
+        //attach 与 detach 都允许传入 ID 数组：
+        $user = AdminUser::find(1);
+
+
+
+        $user->roles()->attach([88 => ['created_at' => '2017-07-19'], 99, 100]);
+        $user->roles()->detach([88, 99, 100]);
     }
 
 

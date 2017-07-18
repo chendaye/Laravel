@@ -568,4 +568,6 @@ Route::group(['prefix' => 'eloquent_relate'], function (){
     Route::get('relate_count', '\App\Test\Controllers\EloquentRelateController@relate_count');
     //预加载
     Route::get('preload', '\App\Test\Controllers\EloquentRelateController@preload');
+    //写入关联
+    Route::get('write', '\App\Test\Controllers\EloquentRelateController@write');
 });
