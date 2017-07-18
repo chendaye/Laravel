@@ -207,7 +207,7 @@ Route::group(['prefix' => 'request'], function (){
     //请求输入值
     Route::get('/input/{name}', '\App\Test\Controllers\RequestController@input');
     //旧输入数据
-    Route::get('/oldData/{name}', '\App\Test\Controllers\RequestController@oldData');
+    Route::get('/oldData/{name}', '\App\Test\Controllers\RequestController@oldData')->name('young');
     //注入测试
     Route::get('/closure', '\App\Test\Controllers\RequestController@closure');
     //文件资源
@@ -570,4 +570,19 @@ Route::group(['prefix' => 'eloquent_relate'], function (){
     Route::get('preload', '\App\Test\Controllers\EloquentRelateController@preload');
     //写入关联
     Route::get('write', '\App\Test\Controllers\EloquentRelateController@write');
+});
+
+//todo:辅助函数
+Route::group(['prefix' => 'assist'], function (){
+    //数组
+    Route::get('arr', '\App\Test\Controllers\AssistController@arr');
+    //路径
+    Route::get('path', '\App\Test\Controllers\AssistController@path');
+    //字符串
+    Route::get('string', '\App\Test\Controllers\AssistController@string')->name('666');
+    //url
+    Route::get('url', '\App\Test\Controllers\AssistController@url');
+    //其他辅助函数
+    Route::get('other', '\App\Test\Controllers\AssistController@other');
+
 });
