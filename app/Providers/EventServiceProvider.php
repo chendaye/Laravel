@@ -21,7 +21,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\EvenTest' => [
             'App\Listeners\ListenerTest',
         ],
+    ];
 
+    /**
+     * 需要注册的订阅者类。
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        'App\Listeners\EventSubscriberTest',
     ];
 
     /**

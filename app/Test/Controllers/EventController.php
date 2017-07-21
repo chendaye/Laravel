@@ -92,5 +92,13 @@ class EventController extends Controller
         event(new EventTest($order));
     }
 
+
+    /*
+     * 事件订阅者
+     * 编写事件订阅者
+     * 事件订阅者是一个在自身内部可以订阅多个事件的类，允许你在单个类中定义多个事件处理器。
+     * 订阅者应该定义一个 subscribe 方法，这个方法接受一个事件分发器的实例。
+     * 你可以调用事件分发器的 listen 方法来注册事件监听器*/
+
 }
 ?>
