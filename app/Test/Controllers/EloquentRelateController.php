@@ -287,6 +287,14 @@ class EloquentRelateController extends Controller
         dump($users);
     }
 
+    /**
+     * 连动父级时间戳
+     * 当一个模型 belongsTo 或 belongsToMany 另一个模型时，像是一个 Comment 属于一个 Post。
+     * 这对于子级模型被更新时，要更新父级的时间戳相当有帮助。
+     * 举例来说，当一个 Comment 模型被更新时，你可能想要「连动」更新 Post 所属的 updated_at 时间戳。
+     * Eloquent 使得此事相当容易。只要在关联的下层模型中增加一个包含名称的 touches 属性即可
+     */
+
 
 }
 ?>
