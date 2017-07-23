@@ -8,7 +8,10 @@ use App\ProductsInstockShipping;
 use App\Topic;
 use App\Video;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -74,6 +77,27 @@ class AppServiceProvider extends ServiceProvider
             'book' => Book::class,
             'video' => Video::class,
         ]);
+
+
+        //todo:队列任务失败时会被调用的事件
+        Queue::failing(function (JobFailed $event) {
+            // $event->connectionName
+            // $event->job
+            // $event->exception
+        });
+
+        //todo:指定任务处理前和处理后的回调处理
+        Queue::before(function (JobProcessed $event) {
+            // $event->connectionName
+            // $event->job
+            // $event->job->payload()
+        });
+
+        Queue::after(function (JobProcessed $event) {
+            // $event->connectionName
+            // $event->job
+            // $event->job->payload()
+        });
     }
 
     /**
