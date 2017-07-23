@@ -17,7 +17,10 @@ class PostController extends Controller
     public function index()
     {
         //取出所有的用户  不使用全局的 Scope -> avaiable  ;  Post后面调用一个静态方法返回一个  模型对象之后再对这个对象进行链式操作
-        $posts = Post::withoutGlobalScope('avaiable')->where('status', 0)->orderBy('created_at', 'desc')->paginate(10);
+
+        $posts = Post::withoutGlobalScope('avaiable')->where('status', 0)
+            ->orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.post.index', compact('posts'));
     }
 
