@@ -186,6 +186,9 @@ return [
         //视图合成器
         \App\Providers\ComposerServiceProvider::class,
 
+        //RBAC 权限管理
+        Laratrust\LaratrustServiceProvider::class,
+
     ],
 
     /*
@@ -234,6 +237,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        //RBAC 权限管理
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
 
     ],
 

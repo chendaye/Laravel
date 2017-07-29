@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as AuthentiUsers;
 use App\Phone;
+use Laratrust\Traits\LaratrustUserTrait;
 
 /**
  * 继承自带的门脸类
@@ -12,6 +13,7 @@ use App\Phone;
  */
 class User extends AuthentiUsers
 {
+    use LaratrustUserTrait;
     //可注入的字段
     protected $fillable = [
         'name',
