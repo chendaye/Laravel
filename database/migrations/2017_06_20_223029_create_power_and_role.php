@@ -22,12 +22,12 @@ class CreatePowerAndRole extends Migration
         });
 
         //权限表
-        Schema::create("admin_powers", function(Blueprint $table){
+       /* Schema::create("admin_powers", function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('description');
             $table->timestamps();
-        });
+        });*/
 
         //权限角色表
         Schema::create("admin_power_role", function(Blueprint $table){
