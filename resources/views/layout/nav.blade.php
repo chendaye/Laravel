@@ -1,15 +1,15 @@
 <div class="blog-masthead">
     <div class="container">
-        <form action="/Laravel/posts/search" method="get">
+        <form action="/posts/search" method="get">
         <ul class="nav navbar-nav navbar-left">
             <li>
-                <a class="blog-nav-item " href="/Laravel/posts">首页</a>
+                <a class="blog-nav-item " href="/posts">首页</a>
             </li>
             <li>
-                <a class="blog-nav-item" href="/Laravel/posts/create">写文章</a>
+                <a class="blog-nav-item" href="/posts/create">写文章</a>
             </li>
             <li>
-                <a class="blog-nav-item" href="/Laravel/notices">通知</a>
+                <a class="blog-nav-item" href="/notices">通知</a>
             </li>
             <li>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -28,9 +28,9 @@
                     <img src="{{ $user->avatar }}" alt="" class="img-rounded" style="border-radius:500px; height: 30px">
                     <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ $user->name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/Laravel/user/{{ $user->id }}">我的主页</a></li>
-                        <li><a href="/Laravel/user/me/set">个人设置</a></li>
-                        <li><a href="/Laravel/logout">登出</a></li>
+                        <li><a href="/user/{{ $user->id }}">我的主页</a></li>
+                        <li><a href="/user/me/set">个人设置</a></li>
+                        <li><a href="/logout">登出</a></li>
                     </ul>
                 </div>
             </li>
