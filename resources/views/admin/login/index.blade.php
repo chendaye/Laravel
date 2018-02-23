@@ -8,15 +8,15 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="/Laravel/public/adminlte/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/adminlte/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/Laravel/public/adminlte/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/public/adminlte/dist/css/AdminLTE.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="/Laravel/public/adminlte/plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="/public/adminlte/plugins/iCheck/square/blue.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,13 +28,13 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="/Laravel/public/adminlte/index2.html">ylaravel管理后台</a>
+        <a href="/public/adminlte/index2.html">ylaravel管理后台</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">登陆</p>
 
-        <form action="/Laravel/admin/login" method="post">
+        <form action="/admin/login" method="post">
             {{--两个TOKEN方式任选一--}}
          {{--   <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
             {{ csrf_field() }}

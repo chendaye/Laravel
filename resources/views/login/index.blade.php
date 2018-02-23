@@ -33,7 +33,7 @@
 
 <div class="container">
 
-    <form class="form-signin" method="POST" action="/Laravel/login">
+    <form class="form-signin" method="POST" action="/login">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <h2 class="form-signin-heading">请登录</h2>
         <label for="inputEmail" class="sr-only">邮箱</label>
@@ -46,7 +46,7 @@
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
-        <a href="/Laravel/register" class="btn btn-lg btn-primary btn-block" type="submit">去注册>></a>
+        <a href="/register" class="btn btn-lg btn-primary btn-block" type="submit">去注册>></a>
         @include('layout.error')
     </form>
 

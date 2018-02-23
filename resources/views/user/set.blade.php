@@ -1,7 +1,7 @@
 @extends('layout.main')
 @section('content')
 <div class="col-sm-8 blog-main">
-    <form class="form-horizontal" action="/Laravel/user/{{ $user->id }}/set" method="POST" enctype="multipart/form-data">
+    <form class="form-horizontal" action="/user/{{ $user->id }}/set" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="col-sm-2 control-label">用户名</label>

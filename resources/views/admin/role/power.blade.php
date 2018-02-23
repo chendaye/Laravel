@@ -12,7 +12,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="/Laravel/admin/roles/{{ $role->id }}/power" method="POST">
+                    <form action="/admin/roles/{{ $role->id }}/power" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
                             @foreach($powers as $power)

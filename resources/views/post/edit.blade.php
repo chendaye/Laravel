@@ -1,7 +1,7 @@
 @extends("layout.main")
 @section("content")
 <div class="col-sm-8 blog-main">
-    <form action="/Laravel/posts/{{ $post->id }}" method="POST">
+    <form action="/posts/{{ $post->id }}" method="POST">
         <input type="hidden" name="_method" value="PUT">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">

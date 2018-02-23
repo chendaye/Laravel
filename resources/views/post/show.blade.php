@@ -5,12 +5,12 @@
         <div style="display:inline-flex">
             <h2 class="blog-post-title">{{$post->title}}</h2>
             @can('edit', $post)
-            <a style="margin: auto"  href="/Laravel/posts/{{$post->id}}/edit">
+            <a style="margin: auto"  href="/posts/{{$post->id}}/edit">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </a>
             @endcan
             @can('delete', $post)
-            <a style="margin: auto"  href="/Laravel/posts/{{$post->id}}/delete">
+            <a style="margin: auto"  href="/posts/{{$post->id}}/delete">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             </a>
             @endcan
@@ -21,11 +21,11 @@
         <p><p>{!! $post->content !!}<img src="http://127.0.0.1:8000/storage/72c76b674ec8793fcfd6555ff371bfbd/nxC9ozLfkORmoY92q9lPsejXchVvdNO2cwHiR2Jf.jpeg" alt="63" style="max-width: 100%;">你好你好似懂非懂说</p><p><br></p></p>
         @if($post->zan(\Illuminate\Support\Facades\Auth::id())->exists())
             <div>
-                <a href="/Laravel/posts/{{$post->id}}/cancelZan" type="button" class="btn btn-primary btn-lg">取消赞</a>
+                <a href="/posts/{{$post->id}}/cancelZan" type="button" class="btn btn-primary btn-lg">取消赞</a>
             </div>
             @else
             <div>
-                <a href="/Laravel/posts/{{$post->id}}/zan" type="button" class="btn btn-primary btn-lg">赞</a>
+                <a href="/posts/{{$post->id}}/zan" type="button" class="btn btn-primary btn-lg">赞</a>
             </div>
         @endif
     </div>
@@ -53,7 +53,7 @@
 
         <!-- List group -->
         <ul class="list-group">
-            <form action="/Laravel/posts/{{ $post->id }}/comment" method="post">
+            <form action="/posts/{{ $post->id }}/comment" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="post_id" value="{{ $post->id }}"/>
                 <li class="list-group-item">

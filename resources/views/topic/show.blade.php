@@ -16,7 +16,7 @@
                 <h4 class="modal-title" id="myModalLabel">我的文章</h4>
             </div>
             <div class="modal-body">
-                <form action="/Laravel/topic/{{ $topic->id }}/submit" method="post">
+                <form action="/topic/{{ $topic->id }}/submit" method="post">
                     {{--表单提交必备--}}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @foreach($myPosts as $post)
@@ -42,8 +42,8 @@
             <div class="tab-pane active" id="tab_1">
                 @foreach($posts as $val)
                 <div class="blog-post" style="margin-top: 30px">
-                    <p class=""><a href="/Laravel/user/{{ $val->user->id }}">{{ $val->user->name }}</a> {{ $val->created_at->diffForHumans() }}</p>
-                    <p class=""><a href="/Laravel/posts/{{ $val->id }}" >{{ $val->title }}</a></p>
+                    <p class=""><a href="/user/{{ $val->user->id }}">{{ $val->user->name }}</a> {{ $val->created_at->diffForHumans() }}</p>
+                    <p class=""><a href="/posts/{{ $val->id }}" >{{ $val->title }}</a></p>
                     <p>{!! str_limit($val->content, 100, '......') !!}</p>
                 </div>
                 @endforeach

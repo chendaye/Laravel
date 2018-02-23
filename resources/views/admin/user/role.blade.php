@@ -12,7 +12,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form action="/Laravel/admin/users/{{ $user->id }}/role" method="POST">
+                        <form action="/admin/users/{{ $user->id }}/role" method="POST">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 @foreach($roles as $role)
