@@ -10,7 +10,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">通知列表</h3>
                     </div>
-                    <a type="button" class="btn " href="/Laravel/admin/notices/create">增加通知</a>
+                    <a type="button" class="btn " href="/admin/notices/create">增加通知</a>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">

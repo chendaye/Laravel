@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="/Laravel/adminlte/index2.html" class="logo">
+    <a href="/adminlte/index2.html" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"></span>
         <!-- logo for regular state and mobile devices -->
@@ -9,7 +9,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
-        <a href="/Laravel/adminlte/#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="/adminlte/#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
 
@@ -17,7 +17,7 @@
             <ul class="nav navbar-nav">
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
-                    <a href="/Laravel/adminlte/#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="/adminlte/#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->avatar }}" class="user-image" alt="User Image">
                         <span class="hidden-xs">{{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->name }}</span>
                     </a>
@@ -26,12 +26,12 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-right">
-                                <a href="/Laravel/admin/users/{{ Illuminate\Support\Facades\Auth::guard('admin')->user()->id }}"  class="btn btn-default btn-flat">个人设置</a>
+                                <a href="/admin/users/{{ Illuminate\Support\Facades\Auth::guard('admin')->user()->id }}"  class="btn btn-default btn-flat">个人设置</a>
                             </div>
                         </li>
                         <li class="user-footer">
                             <div class="pull-right">
-                                <a href="/Laravel/admin/logout" class="btn btn-default btn-flat">Sign out</a>
+                                <a href="/admin/logout" class="btn btn-default btn-flat">Sign out</a>
                             </div>
                         </li>
 

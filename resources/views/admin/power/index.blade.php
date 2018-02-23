@@ -10,7 +10,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">权限列表</h3>
                 </div>
-                <a type="button" class="btn " href="/Laravel/admin/powers/create" >增加权限</a>
+                <a type="button" class="btn " href="/admin/powers/create" >增加权限</a>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">

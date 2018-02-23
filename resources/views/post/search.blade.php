@@ -6,7 +6,7 @@
     <div class="col-sm-8 blog-main">
         @foreach($content as $post)
         <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/Laravel/posts/{{$post->id}}" >{{ $post->title }}</a></h2>
+            <h2 class="blog-post-title"><a href="/posts/{{$post->id}}" >{{ $post->title }}</a></h2>
             <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}}<a href="#">{{ $post->user->name }}</a></p>
             <p>{!! str_limit($post->content, 100, '......') !!}</p>
         </div>

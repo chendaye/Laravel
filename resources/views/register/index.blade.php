@@ -33,7 +33,7 @@
 
 <div class="container">
 
-    <form class="form-signin" method="POST" action="/Laravel/register">
+    <form class="form-signin" method="POST" action="/register">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <h2 class="form-signin-heading">请注册</h2>
         <label for="name" class="sr-only">名字</label>
