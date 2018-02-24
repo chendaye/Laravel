@@ -87,9 +87,10 @@ class PostController extends Controller
         {
             die("连接错误: " . mysqli_connect_error());
         }
-
+        $title = \request('title');
+        $content = \request('content');
         $ret = mysqli_query($con,"INSERT INTO posts (title, content, user_id,created_at, updated_at) VALUES 
-(\request('title'),\request('content'),$user_id,'2018-02-24 16:43:21','2018-02-24 16:43:21')");
+('{$title}','{$content}',$user_id,'2018-02-24 16:43:21','2018-02-24 16:43:21')");
 
 
         //渲染
