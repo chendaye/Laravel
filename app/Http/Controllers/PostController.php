@@ -68,7 +68,7 @@ class PostController extends Controller
         ]);
 
         //权限验证
-        //$user_id = Auth::id();
+        $user_id = Auth::id();
         $param = array_merge(\request(['title', 'content']), compact('user_id'));
 
         //逻辑
@@ -78,7 +78,7 @@ class PostController extends Controller
 //        $post->content = \request('content');
 //        $post->save();
         //法二
-        $post = Post::create($param);
+        //Post::create($param);
 
         //渲染
         return redirect('/posts');  //跳转
