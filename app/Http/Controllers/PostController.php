@@ -220,4 +220,10 @@ class PostController extends Controller
         //渲染
         return view('post.search', compact('content', 'search'));
     }
+
+    public function test()
+    {
+        //只是一个静态页面表单
+        return view('post/test');
+    }
 }

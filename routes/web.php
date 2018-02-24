@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::get('posts', '\App\Http\Controllers\PostController@index');
 //创建文章
 Route::get('posts/create', '\App\Http\Controllers\PostController@create');
+Route::get('posts/test', '\App\Http\Controllers\PostController@test');
 Route::post('posts', '\App\Http\Controllers\PostController@store');
 //文章搜索
 Route::get('posts/search', '\App\Http\Controllers\PostController@search');
