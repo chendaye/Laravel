@@ -18,7 +18,7 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="./css/blog.css" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./css/wangEditor.min.css">
 
 
