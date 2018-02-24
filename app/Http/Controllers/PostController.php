@@ -82,7 +82,6 @@ class PostController extends Controller
 
         //渲染
         //return redirect('/posts');  //跳转
-        header("Location:http://www.chendaye666.top/posts");
        /* dd(\Request::all());
         dd(request());*/
     }
