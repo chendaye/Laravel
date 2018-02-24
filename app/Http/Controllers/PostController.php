@@ -73,11 +73,11 @@ class PostController extends Controller
 
         //逻辑
         //法一
-        $post = new Post();
-        $post->title = \request('title');
-        $post->content = \request('content');
-        $post->user_id = $user_id;
-        $post->save();
+//        $post = new Post();
+//        $post->title = \request('title');
+//        $post->content = \request('content');
+//        $post->user_id = $user_id;
+//        $post->save();
         //法二
         //Post::create($param);
         //法三
