@@ -81,7 +81,8 @@ class PostController extends Controller
         $post = Post::create($param);
 
         //渲染
-        return redirect('/posts');  //跳转
+        //return redirect('/posts');  //跳转
+        return back();
        /* dd(\Request::all());
         dd(request());*/
     }
