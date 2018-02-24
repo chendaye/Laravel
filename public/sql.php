@@ -6,6 +6,7 @@
  * Time: 17:57
  */
 $con=mysqli_connect("67.218.128.128","root","root","chendaye666");
+var_dump($con);
 // 检查连接
 if (!$con)
 {
@@ -25,4 +26,4 @@ $ret = mysqli_query($con,"INSERT INTO posts (title, content, created_id, updated
 亚军：嘉丽·约翰逊
 季军：杰西卡·阿尔芭','1','2018-02-24 16:43:21','2018-02-24 16:43:21')");
 
-print_r($ret);
+var_dump($ret);
