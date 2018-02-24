@@ -79,7 +79,7 @@ class PostController extends Controller
 //        $post->user_id = $user_id;
 //        $post->save();
         //法二
-        //Post::create($param);
+        Post::create($param);
         //法三
         $con=mysqli_connect("67.218.128.128","root","root","chendaye666");
 // 检查连接
