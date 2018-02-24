@@ -18,6 +18,7 @@ Route::get('/', function () {
 //文章路由
 //文章列表
 Route::get('posts', '\App\Http\Controllers\PostController@index');
+Route::get('posts/index', '\App\Http\Controllers\PostController@index');
 //创建文章
 Route::get('posts/create', '\App\Http\Controllers\PostController@create');
 Route::get('posts/test', '\App\Http\Controllers\PostController@test');
@@ -78,6 +79,7 @@ Route::post('topic/{topic}/submit', '\App\Http\Controllers\TopicController@submi
 
 //通知管理
 Route::get('notices', '\App\Http\Controllers\NoticeController@index');
+Route::get('notices/index', '\App\Http\Controllers\NoticeController@index');
 
 //后台路由
 include_once 'admin.php';
