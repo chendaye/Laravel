@@ -80,6 +80,17 @@ class PostController extends Controller
         $post->save();
         //法二
         //Post::create($param);
+        //法三
+        $con=mysqli_connect("67.218.128.128","root","root","chendaye666");
+// 检查连接
+        if (!$con)
+        {
+            die("连接错误: " . mysqli_connect_error());
+        }
+
+        $ret = mysqli_query($con,"INSERT INTO posts (title, content, user_id,created_at, updated_at) VALUES 
+(\request('title'),\request('content'),$user_id,'2018-02-24 16:43:21','2018-02-24 16:43:21')");
+
 
         //渲染
         return redirect('/posts');  //跳转
