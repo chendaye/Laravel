@@ -59,26 +59,26 @@ class PostController extends Controller
      */
     public function store()
     {
-//        //验证   表单提交的数据
-//        $this->validate(\request(), [
-//            'title' => 'required|string|max:100|min:5',
-//            'content' => 'required|string|min:10',
-//        ], [
-//            'title.min' => '文章标题过短！',   //自定义提示信息
-//        ]);
-//
-//        //权限验证
-//        $user_id = Auth::id();
-//        $param = array_merge(\request(['title', 'content']), compact('user_id'));
-//
-//        //逻辑
-//        //法一
-//      /*  $post = new Post();
-//        $post->title = \request('title');
-//        $post->content = \request('content');
-//        $post->save();*/
-//        //法二
-//        $post = Post::create($param);
+        //验证   表单提交的数据
+        $this->validate(\request(), [
+            'title' => 'required|string|max:100|min:5',
+            'content' => 'required|string|min:10',
+        ], [
+            'title.min' => '文章标题过短！',   //自定义提示信息
+        ]);
+
+        //权限验证
+        $user_id = Auth::id();
+        $param = array_merge(\request(['title', 'content']), compact('user_id'));
+
+        //逻辑
+        //法一
+        $post = new Post();
+        $post->title = \request('title');
+        $post->content = \request('content');
+        $post->save();
+        //法二
+        //$post = Post::create($param);
 
         //渲染
         return redirect('/posts');  //跳转
