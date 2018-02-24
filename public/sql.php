@@ -24,5 +24,3 @@ mysqli_query($con,"INSERT INTO posts (title, content, created_id, updated_id) VA
 
 亚军：嘉丽·约翰逊
 季军：杰西卡·阿尔芭','1','2018-02-24 16:43:21','2018-02-24 16:43:21')");
-header('Location:www.baidu.com');
-mysqli_close($con);
