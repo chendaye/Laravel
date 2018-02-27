@@ -152,7 +152,7 @@ class GatePolicyController extends Controller
     /**
      * 策略类授权
      * 如果给定模型的 策略已被注册，can 方法会自动调用核实的策略方法并且返回 boolean 值。
-     * 如果没有策略注册到这个模型，can 方法会尝试调用和动作名相匹配的基于闭包的 Gate。
+     * 如果没有策略注册到这个模型，can 和动方法会尝试调用作名相匹配的基于闭包的 Gate。
      */
     public function policy_auth()
     {
