@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\ProductsInstockShipping;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,7 +24,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //路由全局约束
+        Route::pattern('global', '[0-9]+');
+
+        //显示模型绑定 即直接指定 模型
+        Route::model('pis', ProductsInstockShipping::class);
+
+        //自定义解析逻辑
+        Route::bind('self', function ($value) {
+            return ProductsInstockShipping::where('products_instock_id', $value)->first();
+        });
 
         parent::boot();
     }
@@ -41,6 +51,7 @@ class RouteServiceProvider extends ServiceProvider
 
         //
     }
+
 
     /**
      * Define the "web" routes for the application.

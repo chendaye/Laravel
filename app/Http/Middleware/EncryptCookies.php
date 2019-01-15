@@ -12,6 +12,7 @@ class EncryptCookies extends BaseEncrypter
      * @var array
      */
     protected $except = [
-        //
+        //禁用cookie加密
+        // 'cookie_name',
     ];
 }

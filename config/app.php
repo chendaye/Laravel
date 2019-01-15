@@ -37,8 +37,8 @@ return [
     | application. If disabled, a simple generic error page is shown.
     |
     */
-
-    'debug' => env('APP_DEBUG', false),
+    //todo:开启调试模式
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Shanghai',
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +103,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'zIax1UFiX+7Wz+3dt4VT+KOBQVlzUo7l6jc7JkRpZ84='),
 
     'cipher' => 'AES-256-CBC',
 
@@ -167,7 +167,11 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-
+        /*
+         * Elasticsearch
+         */
+        Laravel\Scout\ScoutServiceProvider::class,
+        ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
         /*
          * Application Service Providers...
          */
@@ -176,6 +180,14 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        //宏响应
+        \App\Providers\ResponseMacroServiceProvider::class,
+        //视图合成器
+        \App\Providers\ComposerServiceProvider::class,
+
+        //RBAC 权限管理
+        Laratrust\LaratrustServiceProvider::class,
 
     ],
 
@@ -225,6 +237,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        //RBAC 权限管理
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
 
     ],
 
